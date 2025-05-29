@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="87.762 92.487 27.71 29.497" xmlns="http://www.w3.org/2000/svg">
+  <g transform="matrix(1, 0, 0, 1, -366.278564, -136.407196)">
+    <title>Trade</title>
+    <ellipse style="fill: rgb(95, 101, 115);" cx="471.741" cy="238.894" rx="10.01" ry="10"/>
+    <g transform="matrix(1, 0, 0, 1, 0.059635, 1.61015)">
+      <ellipse style="fill: rgb(161, 165, 171);" cx="463.991" cy="246.781" rx="10.01" ry="10"/>
+      <rect x="345.189" y="183.189" width="6" height="6" style="fill: rgb(95, 101, 115);" transform="matrix(0.707107, 0.707107, -0.707107, 0.707107, 349.43924, -131.081757)"/>
+    </g>
+  </g>
+</svg>
