@@ -11,7 +11,7 @@ export const OrderList = () => {
 				<div className='flex overflow-x-scroll scrollbar-hidden gap-[13px] *:text-[13px] *:tracking-wider *:text-muted *:font-normal *:pb-[7px] *:whitespace-nowrap'>
 					<h2>Открытые ордера (0)</h2>
 					<h2 className='relative text-foreground! before:absolute before:transform before:-translate-1/2 before:left-1/2 before:bottom-0 before:h-[2px] before:w-[15px] before:bg-accent'>
-						Позиции (0)
+						Позиции ({orders.length})
 					</h2>
 					<h2>Сетка фьючерсов</h2>
 				</div>
