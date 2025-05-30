@@ -121,9 +121,15 @@
 
 @layer base {
 	* {
-		@apply border-border outline-ring/50;
+		@apply border-border outline-ring/50 font-[BinancePlex];
 	}
 	body {
-		@apply bg-background text-foreground font-[BinancePlex] text-[12px] font-light tracking-wide;
+		@apply bg-background text-foreground text-[12px] font-light tracking-wide scrollbar-hidden;
+	}
+}
+
+@utility scrollbar-hidden {
+	&::-webkit-scrollbar {
+		display: none;
 	}
 }

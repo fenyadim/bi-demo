@@ -4,12 +4,16 @@ interface ICurrencyText {
 	value?: string | number | null
 	decimalScale?: number
 	fixedDecimalScale?: boolean
+	prefix?: string
+	suffix?: string
 }
 
 export const CurrencyText = ({
 	value,
 	decimalScale = 1,
 	fixedDecimalScale = true,
+	prefix,
+	suffix,
 }: ICurrencyText) => {
 	return (
 		<CurrencyFormat
@@ -19,6 +23,8 @@ export const CurrencyText = ({
 			decimalSeparator=','
 			decimalScale={decimalScale}
 			fixedDecimalScale={fixedDecimalScale}
+			prefix={prefix}
+			suffix={suffix}
 		/>
 	)
 }

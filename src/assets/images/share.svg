@@ -1,7 +1,7 @@
 <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="19" cy="5" r="5" fill="#848B91"/>
-<circle cx="19" cy="20" r="5" fill="#848B91"/>
-<circle cx="5" cy="13" r="5" fill="#848B91"/>
-<line x1="7.22826" y1="11.7138" x2="17.2283" y2="5.71376" stroke="#848B91" stroke-width="3"/>
-<line x1="7.795" y1="13.728" x2="15.795" y2="18.728" stroke="#848B91" stroke-width="3"/>
+	<circle cx="19" cy="5" r="5" fill="#4f5867" />
+	<circle cx="19" cy="20" r="5" fill="#4f5867" />
+	<circle cx="5" cy="13" r="5" fill="#4f5867" />
+	<line x1="7.22826" y1="11.7138" x2="17.2283" y2="5.71376" stroke="#4f5867" stroke-width="3" />
+	<line x1="7.795" y1="13.728" x2="15.795" y2="18.728" stroke="#4f5867" stroke-width="3" />
 </svg>

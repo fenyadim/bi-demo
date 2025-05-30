@@ -1,9 +1,8 @@
-import type { IStakes } from '@/shared/types/stakes'
+import { modeToStyle } from '@/shared/constants'
+import type { IStakes, ModeType } from '@/shared/types'
 import { CurrencyText } from '@/shared/ui'
 import { formatter } from 'kmformatter'
 import type { CSSProperties } from 'react'
-
-type ModeType = 'long' | 'short'
 
 interface IStockStakes {
 	stakes: IStakes[]
@@ -11,17 +10,12 @@ interface IStockStakes {
 }
 
 export const StockStakes = ({ stakes, mode }: IStockStakes) => {
-	const modeTheme: Record<ModeType, 'success' | 'fail'> = {
-		short: 'fail',
-		long: 'success',
-	}
-
 	const fontColor: CSSProperties = {
-		color: `var(--${modeTheme[mode]})`,
+		color: `var(--${modeToStyle[mode]})`,
 	}
 
 	const fillBox: (fillProcent: number) => CSSProperties = fillProcent => ({
-		backgroundColor: `var(--${modeTheme[mode]})`,
+		backgroundColor: `var(--${modeToStyle[mode]})`,
 		width: `${fillProcent * 100}%`,
 	})
 

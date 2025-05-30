@@ -17,7 +17,7 @@ export const Header = () => {
 				</nav>
 				<Menu className='scale-x-75' strokeWidth={3} radius={0} />
 			</header>
-			<div className='sticky top-0 flex items-start justify-between bg-background p-4 pt-3.5 pb-2'>
+			<div className='sticky z-10 top-0 flex items-start justify-between bg-background p-4 pt-3.5 pb-2'>
 				<CoupleCoins />
 				<div className='flex items-center gap-5'>
 					<Button className='p-0! size-3.5' variant='ghost' size='icon'>

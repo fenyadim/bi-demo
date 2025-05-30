@@ -1,5 +1,6 @@
-import { Content } from './components/content'
+import { CreateOrderContainer } from './components/create-order-container'
 import { Header } from './components/header'
+import { PositionContainer } from './components/position-container'
 import { ThemeProvider } from './shared/providers/theme-provider'
 
 function App() {
@@ -7,7 +8,8 @@ function App() {
 		<ThemeProvider defaultTheme='dark' storageKey='theme'>
 			<main className='h-screen'>
 				<Header />
-				<Content />
+				<CreateOrderContainer />
+				<PositionContainer />
 			</main>
 		</ThemeProvider>
 	)
