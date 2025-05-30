@@ -1,116 +1,83 @@
 import Arrow from '@/assets/images/arrow-down.svg?react'
-import Convertation from '@/assets/images/convertation.svg?react'
-import Info from '@/assets/images/info.svg?react'
-import { Button, Input } from '@/shared/ui'
-import { Minus, Plus } from 'lucide-react'
-import { useState } from 'react'
-import { Checkbox } from './checkbox'
-import { Slider } from './slider'
+import BookOrders from '@/assets/images/book-orders.svg?react'
+import type { IStakes } from '@/shared/types/stakes'
+import { Button } from '@/shared/ui'
+import { ControlContainer } from './control-container.'
+import { StockStakes } from './stock-stakes'
 
 export const Content = () => {
-	const [valueSum, setValueSum] = useState('')
+	const stakes: IStakes[] = [
+		{
+			price: 109728.1,
+			amount: 1980,
+			fillProcent: 1,
+		},
+		{
+			price: 109727.9,
+			amount: 109.8,
+			fillProcent: 1,
+		},
+		{
+			price: 109727.4,
+			amount: 109.8,
+			fillProcent: 1,
+		},
+		{
+			price: 109727.0,
+			amount: 109.8,
+			fillProcent: 1,
+		},
+		{
+			price: 109726.8,
+			amount: 109.8,
+			fillProcent: 1,
+		},
+		{
+			price: 109726.6,
+			amount: 109.8,
+			fillProcent: 1,
+		},
+		{
+			price: 109726.5,
+			amount: 933880,
+			fillProcent: 1,
+		},
+	]
 
 	return (
 		<div className='h-full grid grid-cols-[1.3fr_2fr] gap-4 p-4 pt-0'>
-			<section className='bg-white h-full'></section>
-			<section>
-				<div className='flex flex-col gap-2'>
-					<div className='grid grid-cols-[87px_107px_1fr] gap-1 *:bg-none *:font-light *:flex *:p-0 *:justify-center *:h-[25px] *:text-xs'>
-						<Button
-							className='justify-start! overflow-hidden whitespace-nowrap text-ellipsis'
-							variant='outline'
-						>
-							Изолирован...
-						</Button>
-						<Button variant='outline'>30х</Button>
-						<Button variant='outline'>П</Button>
-					</div>
-					<div className='flex justify-between'>
-						<p className='text-muted'>Доступно</p>
-						<div className='flex items-center gap-1.5'>
-							<p>0,43 USDT</p>
-							<Button className='p-0! size-3' variant='ghost' size='icon'>
-								<Convertation className='fill-accent size-3' />
-							</Button>
-						</div>
-					</div>
+			<section className='h-full w-full flex flex-col gap-1'>
+				<div>
+					<h3 className='border-b-1 border-dotted w-fit text-muted text-[10px] leading-3'>
+						Ставка / Осталось
+					</h3>
+					<p>0,0065 % / 04:13:49</p>
+				</div>
+				<div className='flex justify-between mb-1 *:w-min *:text-muted *:text-[10px] *:leading-3'>
+					<h3>Цена (USDT)</h3>
+					<h3 className='text-end'>Сумма (USDT)</h3>
+				</div>
+				<StockStakes stakes={stakes} mode='short' />
+				<div className='flex flex-col items-center my-0.5'>
+					<h2 className='font-medium text-lg leading-6'>109726.5</h2>
+					<p className='text-muted border-b-1 border-dotted w-fit'>109704.6</p>
+				</div>
+				<StockStakes stakes={stakes} mode='long' />
+				<div className='mt-2 grid grid-cols-[1fr_16px] items-center gap-2'>
 					<Button
-						className='h-[25px] p-1.5! flex justify-between'
+						className='flex justify-between h-fit font-normal text-muted text-xs w-full py-0.5 px-2 pr-1.5 rounded-sm'
 						variant='secondary'
+						size='icon'
 					>
-						<Info className='size-[15px] fill-muted' />
-						Рыночный
+						0.1
 						<Arrow className='fill-muted' />
 					</Button>
-					<Button
-						className=' h-[40px] bg-[#333b47] text-muted'
-						variant='secondary'
-					>
-						Рыночная цена
+					<Button className='size-3.5 px-1' variant='ghost' size='icon'>
+						<BookOrders className='size-3.5' />
 					</Button>
-					<div className='flex *:h-10 *:rounded-none *:text-muted overflow-hidden rounded-md'>
-						<Button variant='secondary' size='icon'>
-							<Minus />
-						</Button>
-						<div className='relative group'>
-							<Input
-								className='caret-accent h-full rounded-none border-none bg-secondary! font-[BinancePlex] text-center text-accent-foreground font-medium focus-visible:ring-0 peer p-0 pt-2 text-base'
-								placeholder=''
-								value={valueSum}
-								onChange={e => setValueSum(e.target.value)}
-							/>
-							<label className='truncate absolute top-2 left-0 right-0 flex items-center justify-center align-middle font-medium text-muted text-[10px] transition-all duration-300 px-1 transform -translate-y-1/2 pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm group-focus-within:!top-2 group-focus-within:text-[10px]!'>
-								Сумма
-							</label>
-						</div>
-						<Button className='px-0!' variant='secondary' size='icon'>
-							<Plus />
-						</Button>
-						<Button
-							className='relative flex gap-1 text-accent-foreground! px-1! text-xs before:absolute before:inset-y-1.5 before:-left-1 before:border-l-1 before:border-[#333b47]'
-							variant='secondary'
-						>
-							USDT
-							<Arrow className='fill-muted' />
-						</Button>
-					</div>
-					<div className='pt-3 flex flex-col gap-1.5'>
-						<Slider className='mb-4' max={100} step={25} countMarks={5} />
-						<Checkbox title='TP/SL' />
-						<Checkbox title='Только сокращение' />
-					</div>
-					<div>
-						<div className='flex justify-between'>
-							<p className='text-muted'>Макс.</p>
-							<p>0,0 USDT</p>
-						</div>
-						<div className='flex justify-between mb-2'>
-							<p className='relative text-muted leading-3 before:absolute before:-bottom-0.5 before:inset-x-0 before:border-t-1 before:border-dotted'>
-								Стоимость
-							</p>
-							<p className='leading-3'>0 USDT</p>
-						</div>
-						<Button className='w-full bg-success text-foreground'>
-							Купить/Лонг
-						</Button>
-					</div>
-					<div>
-						<div className='flex justify-between'>
-							<p className='text-muted'>Макс.</p>
-							<p>219,0 USDT</p>
-						</div>
-						<div className='flex justify-between mb-2'>
-							<p className='relative text-muted leading-3 before:absolute before:-bottom-0.5 before:inset-x-0 before:border-t-1 before:border-dotted'>
-								Стоимость
-							</p>
-							<p className='leading-3'>0 USDT</p>
-						</div>
-						<Button className='w-full bg-fail text-foreground'>
-							Продать/Шорт
-						</Button>
-					</div>
 				</div>
 			</section>
+			<ControlContainer />
 		</div>
 	)
 }
