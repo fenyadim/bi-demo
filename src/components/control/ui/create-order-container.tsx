@@ -1,49 +1,11 @@
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import BookOrders from '@/assets/images/book-orders.svg?react'
-import type { IStakes } from '@/shared/types'
 import { Button, CurrencyText } from '@/shared/ui'
+import { stakes } from '../constants'
 import { ControlContainer } from './control-container.'
 import { StockStakes } from './stock-stakes'
 
 export const CreateOrderContainer = () => {
-	const stakes: IStakes[] = [
-		{
-			price: 109728.1,
-			amount: 1980,
-			fillProcent: 1,
-		},
-		{
-			price: 109727.9,
-			amount: 109.8,
-			fillProcent: 1,
-		},
-		{
-			price: 109727.4,
-			amount: 109.8,
-			fillProcent: 1,
-		},
-		{
-			price: 109727.0,
-			amount: 109.8,
-			fillProcent: 1,
-		},
-		{
-			price: 109726.8,
-			amount: 109.8,
-			fillProcent: 1,
-		},
-		{
-			price: 109726.6,
-			amount: 933880,
-			fillProcent: 1,
-		},
-		{
-			price: 109726.5,
-			amount: 1933880,
-			fillProcent: 1,
-		},
-	]
-
 	return (
 		<div className='grid grid-cols-[1.3fr_2fr] gap-4 p-4 pt-0'>
 			<section className='h-full w-full flex flex-col gap-1'>

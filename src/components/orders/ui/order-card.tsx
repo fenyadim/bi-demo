@@ -1,3 +1,4 @@
+import Plus from '@/assets/images/plus.svg?react'
 import Share from '@/assets/images/share.svg?react'
 import { modeToStyle } from '@/shared/constants'
 import type { ModeType } from '@/shared/types'
@@ -15,7 +16,7 @@ export const OrderCard = ({ mode }: IOrderCard) => {
 	}
 
 	return (
-		<div className='py-3.5 flex flex-col gap-2.5'>
+		<div className='py-3.5 pb-4 border-b-1 flex flex-col gap-2.5'>
 			<div className='flex justify-between items-center'>
 				<div className='flex items-center gap-1 h-min'>
 					<span className='block rounded-xs text-center size-4' style={bgColor}>
@@ -44,7 +45,7 @@ export const OrderCard = ({ mode }: IOrderCard) => {
 						/>
 					</OrderItem>
 				</div>
-				<div className='grid grid-cols-3 grid-rows-2 gap-1.5'>
+				<div className='grid grid-cols-3 grid-rows-2 gap-1.5 mb-1.5'>
 					<OrderItem title='Размер (USDT)'>
 						<CurrencyText
 							value={233.5716}
@@ -52,7 +53,7 @@ export const OrderCard = ({ mode }: IOrderCard) => {
 							fixedDecimalScale={false}
 						/>
 					</OrderItem>
-					<OrderItem title='Маржа (USDT)' underline={false}>
+					<OrderItem title='Маржа (USDT)' underline={false} Icon={Plus}>
 						<CurrencyText value={5.3} decimalScale={2} />
 					</OrderItem>
 					<OrderItem title='Коэффициент маржи' mode='accent' align='end'>
@@ -83,6 +84,11 @@ export const OrderCard = ({ mode }: IOrderCard) => {
 							fixedDecimalScale={false}
 						/>
 					</OrderItem>
+				</div>
+				<div className='flex gap-2 *:h-fit *:rounded-sm *:py-2 *:px-0 *:font-normal *:tracking-normal *:bg-[#333b47] *:flex-1 *:text-xs'>
+					<Button variant='secondary'>Кредитное плечо</Button>
+					<Button variant='secondary'>TP/SL</Button>
+					<Button variant='secondary'>Закрыть</Button>
 				</div>
 			</div>
 		</div>

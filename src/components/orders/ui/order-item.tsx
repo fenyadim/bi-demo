@@ -36,7 +36,7 @@ export const OrderItem = ({
 		<div className={cn('flex flex-col', className)} style={alignLabel}>
 			<label
 				className={cn(
-					'text-muted  text-[12px] leading-4 tracking-normal  w-fit',
+					'text-muted  text-[12px] leading-4 tracking-normal w-fit flex items-center gap-1.5',
 					{
 						'border-b-1 border-dotted': underline,
 						'mb-0.5': !underline,
@@ -44,7 +44,7 @@ export const OrderItem = ({
 				)}
 			>
 				{title}
-				{Icon && <Icon />}
+				{Icon && <Icon className='size-3' />}
 			</label>
 			<p
 				className={cn({

@@ -1,18 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="145.83 43.316 29.847 28.668" xmlns="http://www.w3.org/2000/svg">
-  <g transform="matrix(1, 0, 0, 1, -48.176598, -64.903969)">
-    <title>Markets</title>
-    <g>
-      <rect x="194.01" y="121.339" width="7.494" height="15.377" style="fill: rgb(161, 165, 171); paint-order: fill; stroke-miterlimit: 1; stroke-width: 0px;"/>
-      <rect y="132.158" width="7.5" height="4.593" style="fill: rgb(95, 101, 115);" x="194.007"/>
-    </g>
-    <g transform="matrix(1, 0, 0, 1.846812, 11.069497, -115.87072)" style="">
-      <rect x="194.01" y="121.339" width="7.5" height="15.377" style="fill: rgb(161, 165, 171); paint-order: fill; stroke-miterlimit: 1; stroke-width: 0px;"/>
-      <rect y="128.865" width="7.5" height="7.886" style="fill: rgb(95, 101, 115);" x="194.007"/>
-    </g>
-    <g transform="matrix(1, 0, 0, 1.288182, 22.343985, -39.27253)" style="">
-      <rect x="194.01" y="121.339" width="7.5" height="15.377" style="fill: rgb(161, 165, 171); paint-order: fill; stroke-miterlimit: 1; stroke-width: 0px;"/>
-      <rect y="130.722" width="7.5" height="6.029" style="fill: rgb(95, 101, 115);" x="194.007"/>
-    </g>
-  </g>
+<svg width="55" height="45" viewBox="0 0 55 45" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M0.5 21H14.5V45H0.5V21Z" fill="#848E9C"/>
+<path d="M20.5 0H34.5V45H20.5V0Z" fill="#848E9C"/>
+<path d="M40.5 15H54.5V45H40.5V15Z" fill="#848E9C"/>
 </svg>

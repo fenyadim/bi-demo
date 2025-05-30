@@ -1,6 +1,6 @@
-import { CreateOrderContainer } from './components/create-order-container'
+import { CreateOrderContainer } from './components/control'
 import { Header } from './components/header'
-import { PositionContainer } from './components/position-container'
+import { OrderList } from './components/orders'
 import { ThemeProvider } from './shared/providers/theme-provider'
 
 function App() {
@@ -9,7 +9,7 @@ function App() {
 			<main className='h-screen'>
 				<Header />
 				<CreateOrderContainer />
-				<PositionContainer />
+				<OrderList />
 			</main>
 		</ThemeProvider>
 	)
