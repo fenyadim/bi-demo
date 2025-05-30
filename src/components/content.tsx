@@ -1,10 +1,6 @@
 import Arrow from '@/assets/images/arrow-down.svg?react'
-import Candle from '@/assets/images/candle.svg?react'
 import Convertation from '@/assets/images/convertation.svg?react'
-import Dots from '@/assets/images/dots.svg?react'
 import Info from '@/assets/images/info.svg?react'
-import PlusEqual from '@/assets/images/plus-equal.svg?react'
-import Swords from '@/assets/images/swords.svg?react'
 import { Button, Input } from '@/shared/ui'
 import { Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
@@ -15,27 +11,9 @@ export const Content = () => {
 	const [valueSum, setValueSum] = useState('')
 
 	return (
-		<div className='h-full grid grid-cols-[1.3fr_2fr] gap-4 p-4'>
+		<div className='h-full grid grid-cols-[1.3fr_2fr] gap-4 p-4 pt-0'>
 			<section className='bg-white h-full'></section>
 			<section>
-				<div className='flex items-center justify-end gap-5 mb-6.5'>
-					<Button className='p-0! size-3.5' variant='ghost' size='icon'>
-						<Swords className='fill-muted size-3.5' />
-					</Button>
-					<Button className='p-0! size-4' variant='ghost' size='icon'>
-						<Candle className='fill-muted size-5' />
-					</Button>
-					<Button className='p-0! size-4' variant='ghost' size='icon'>
-						<PlusEqual className='fill-muted size-4.5' />
-					</Button>
-					<Button
-						className='relative p-0! size-4 before:absolute before:-top-1.5 before:-right-1.5 before:block before:size-1.5 before:bg-accent before:rounded-full'
-						variant='ghost'
-						size='icon'
-					>
-						<Dots className='fill-muted size-4' />
-					</Button>
-				</div>
 				<div className='flex flex-col gap-2'>
 					<div className='grid grid-cols-[87px_107px_1fr] gap-1 *:bg-none *:font-light *:flex *:p-0 *:justify-center *:h-[25px] *:text-xs'>
 						<Button
@@ -97,7 +75,7 @@ export const Content = () => {
 						</Button>
 					</div>
 					<div className='pt-3 flex flex-col gap-1.5'>
-						<Slider className='mb-4' max={100} step={1} countMarks={5} />
+						<Slider className='mb-4' max={100} step={25} countMarks={5} />
 						<Checkbox title='TP/SL' />
 						<Checkbox title='Только сокращение' />
 					</div>
