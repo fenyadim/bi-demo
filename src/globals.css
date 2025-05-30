@@ -124,6 +124,6 @@
 		@apply border-border outline-ring/50;
 	}
 	body {
-		@apply bg-background text-foreground font-[BinancePlex] text-[12px] font-light;
+		@apply bg-background text-foreground font-[BinancePlex] text-[12px] font-light tracking-wide;
 	}
 }

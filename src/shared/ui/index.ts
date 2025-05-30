@@ -1,5 +1,6 @@
 export * from './button'
 export * from './checkbox'
+export * from './currency-text'
 export * from './drawer'
 export * from './input'
 export * from './separator'

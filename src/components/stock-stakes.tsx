@@ -1,4 +1,6 @@
 import type { IStakes } from '@/shared/types/stakes'
+import { CurrencyText } from '@/shared/ui'
+import { formatter } from 'kmformatter'
 import type { CSSProperties } from 'react'
 
 type ModeType = 'long' | 'short'
@@ -28,9 +30,9 @@ export const StockStakes = ({ stakes, mode }: IStockStakes) => {
 			{stakes.map(({ price, amount, fillProcent }) => (
 				<div key={price} className='relative flex justify-between w-full py-px'>
 					<p className='font-normal' style={fontColor}>
-						{price}
+						<CurrencyText value={price} />
 					</p>
-					<p>{amount}</p>
+					<p>{formatter(amount, 2).replace(/\./g, ',')}</p>
 					<div
 						className='absolute -z-10 right-0 opacity-5 h-full'
 						style={fillBox(fillProcent)}

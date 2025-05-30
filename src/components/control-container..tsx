@@ -1,7 +1,7 @@
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import Convertation from '@/assets/images/convertation.svg?react'
 import Info from '@/assets/images/info.svg?react'
-import { Button, Input } from '@/shared/ui'
+import { Button, CurrencyText, Input } from '@/shared/ui'
 import { Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 import { Checkbox } from './checkbox'
@@ -26,7 +26,14 @@ export const ControlContainer = () => {
 				<div className='flex justify-between'>
 					<p className='text-muted'>Доступно</p>
 					<div className='flex items-center gap-1.5'>
-						<p>0,43 USDT</p>
+						<p>
+							<CurrencyText
+								value={0.43}
+								decimalScale={2}
+								fixedDecimalScale={false}
+							/>{' '}
+							USDT
+						</p>
 						<Button className='p-0! size-3' variant='ghost' size='icon'>
 							<Convertation className='fill-accent size-3' />
 						</Button>
@@ -80,13 +87,22 @@ export const ControlContainer = () => {
 				<div>
 					<div className='flex justify-between'>
 						<p className='text-muted'>Макс.</p>
-						<p>0,0 USDT</p>
+						<p>
+							<CurrencyText value={0} decimalScale={1} /> USDT
+						</p>
 					</div>
 					<div className='flex justify-between mb-2'>
 						<p className='relative text-muted leading-3 before:absolute before:-bottom-0.5 before:inset-x-0 before:border-t-1 before:border-dotted'>
 							Стоимость
 						</p>
-						<p className='leading-3'>0 USDT</p>
+						<p className='leading-3'>
+							<CurrencyText
+								value={0}
+								decimalScale={2}
+								fixedDecimalScale={false}
+							/>{' '}
+							USDT
+						</p>
 					</div>
 					<Button className='w-full bg-success text-foreground'>
 						Купить/Лонг
@@ -95,13 +111,22 @@ export const ControlContainer = () => {
 				<div>
 					<div className='flex justify-between'>
 						<p className='text-muted'>Макс.</p>
-						<p>219,0 USDT</p>
+						<p>
+							<CurrencyText value={219} decimalScale={1} /> USDT
+						</p>
 					</div>
 					<div className='flex justify-between mb-2'>
 						<p className='relative text-muted leading-3 before:absolute before:-bottom-0.5 before:inset-x-0 before:border-t-1 before:border-dotted'>
 							Стоимость
 						</p>
-						<p className='leading-3'>0 USDT</p>
+						<p className='leading-3'>
+							<CurrencyText
+								value={0}
+								decimalScale={2}
+								fixedDecimalScale={false}
+							/>{' '}
+							USDT
+						</p>
 					</div>
 					<Button className='w-full bg-fail text-foreground'>
 						Продать/Шорт
