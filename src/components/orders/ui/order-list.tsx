@@ -6,7 +6,7 @@ import { OrderCard } from './order-card'
 
 export const OrderList = () => {
 	return (
-		<div className='pt-2.5 *:p-4'>
+		<div className='pt-2.5 pb-32 *:p-4'>
 			<div className='py-0! border-b-1 flex justify-between'>
 				<div className='flex overflow-x-scroll scrollbar-hidden gap-[13px] *:text-[13px] *:tracking-wider *:text-muted *:font-normal *:pb-[7px] *:whitespace-nowrap'>
 					<h2>Открытые ордера (0)</h2>
