@@ -7,7 +7,7 @@ import { StockStakes } from './stock-stakes'
 
 export const CreateOrderContainer = () => {
 	return (
-		<div className='grid grid-cols-[1.3fr_2fr] gap-4 p-4 pt-0'>
+		<div className='grid grid-cols-[1.3fr_2fr] gap-4 p-4 pt-17.5'>
 			<section className='h-full w-full flex flex-col gap-1'>
 				<div>
 					<h3 className='border-b-1 border-dotted w-fit text-muted text-[10px] leading-3'>
