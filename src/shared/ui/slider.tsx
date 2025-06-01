@@ -9,14 +9,19 @@ import {
 	TooltipTrigger,
 } from './tooltip'
 
+type ISlider = {
+	showTooltip?: boolean
+} & React.ComponentProps<typeof SliderPrimitive.Root>
+
 function Slider({
 	className,
 	defaultValue,
 	value,
 	min = 0,
 	max = 100,
+	showTooltip = true,
 	...props
-}: React.ComponentProps<typeof SliderPrimitive.Root>) {
+}: ISlider) {
 	const _values = React.useMemo(
 		() =>
 			Array.isArray(value)
@@ -73,7 +78,7 @@ function Slider({
 			</SliderPrimitive.Track>
 			{Array.from({ length: _values.length }, (_, index) => (
 				<TooltipProvider key={index}>
-					<Tooltip open={showTooltipState}>
+					<Tooltip open={showTooltip ? showTooltipState : showTooltip}>
 						<TooltipTrigger asChild>
 							<SliderPrimitive.Thumb
 								data-slot='slider-thumb'

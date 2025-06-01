@@ -9,6 +9,11 @@ import { Slider } from './slider'
 
 export const ControlContainer = () => {
 	const [valueSum, setValueSum] = useState('')
+	const [procentValue, setValueProcent] = useState([0])
+
+	const handleChangeProcent = (value: number[]) => {
+		setValueProcent(value)
+	}
 
 	return (
 		<section>
@@ -80,7 +85,13 @@ export const ControlContainer = () => {
 					</Button>
 				</div>
 				<div className='pt-3 flex flex-col gap-1.5'>
-					<Slider className='mb-4' max={100} step={25} countMarks={5} />
+					<Slider
+						className='mb-4'
+						value={procentValue}
+						onValueChange={handleChangeProcent}
+						step={25}
+						countMarks={5}
+					/>
 					<Checkbox title='TP/SL' />
 					<Checkbox title='Только сокращение' />
 				</div>

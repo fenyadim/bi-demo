@@ -1,32 +1,32 @@
 import { cn } from '@/lib/utils'
 import { Slider as SliderUI } from '@/shared/ui'
 import * as SliderPrimitive from '@radix-ui/react-slider'
-import { useState } from 'react'
 
 interface ISlider extends React.ComponentProps<typeof SliderPrimitive.Root> {
 	countMarks: number
+	showTooltip?: boolean
 }
 
 export const Slider = ({
 	className,
 	countMarks,
+	showTooltip = true,
 	max = 100,
+	defaultValue = [0],
+	value = defaultValue,
+	onValueChange,
 	...props
 }: ISlider) => {
-	const [value, setValue] = useState([0])
 	const count = countMarks - 1
-
-	const handleChange = (value: number[]) => {
-		setValue(value)
-	}
 
 	return (
 		<div className={cn('relative px-1', className)}>
 			<SliderUI
 				value={value}
 				max={max}
+				onValueChange={onValueChange}
+				showTooltip={showTooltip}
 				{...props}
-				onValueChange={handleChange}
 			/>
 			<ul className='flex justify-between w-full px-1'>
 				{Array(countMarks)
