@@ -6,11 +6,11 @@ import svgr from 'vite-plugin-svgr'
 
 // https://vite.dev/config/
 export default defineConfig({
-	base: '/bi-demo',
-	plugins: [react(), tailwindcss(), svgr()],
-	resolve: {
-		alias: {
-			'@': path.resolve(__dirname, './src'),
-		},
-	},
+  base: '/bi-demo',
+  plugins: [react(), tailwindcss(), svgr()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src'),
+    },
+  },
 })
