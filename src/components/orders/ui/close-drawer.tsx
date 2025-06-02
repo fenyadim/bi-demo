@@ -1,7 +1,6 @@
 import { type ReactNode, useState } from 'react'
 
 import Arrow from '@/assets/images/arrow-down.svg?react'
-import { Slider } from '@/components/control/ui/slider'
 import {
   Badge,
   Button,
@@ -13,6 +12,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
+  Slider,
 } from '@/shared/ui'
 
 import { TextDrawer } from './text-drawer'

@@ -4,10 +4,9 @@ import { useState } from 'react'
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import Convertation from '@/assets/images/convertation.svg?react'
 import Info from '@/assets/images/info.svg?react'
-import { Button, CurrencyText, Input } from '@/shared/ui'
+import { Button, CurrencyText, Input, Slider } from '@/shared/ui'
 
 import { Checkbox } from './checkbox'
-import { Slider } from './slider'
 
 export const ControlContainer = () => {
   const [valueSum, setValueSum] = useState('')
@@ -91,7 +90,6 @@ export const ControlContainer = () => {
             className="mb-4"
             value={procentValue}
             onValueChange={handleChangeProcent}
-            step={25}
             countMarks={5}
           />
           <Checkbox title="TP/SL" />
