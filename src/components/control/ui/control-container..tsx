@@ -12,6 +12,9 @@ export const ControlContainer = () => {
   const [valueSum, setValueSum] = useState('')
   const [procentValue, setValueProcent] = useState([0])
 
+  const balance = 0.43
+  const currencyCost = balance * (procentValue[0] / 100)
+
   const handleChangeProcent = (value: number[]) => {
     setValueProcent(value)
   }
@@ -34,7 +37,7 @@ export const ControlContainer = () => {
           <div className="flex items-center gap-1.5">
             <p>
               <CurrencyText
-                value={0.43}
+                value={balance}
                 decimalScale={2}
                 fixedDecimalScale={false}
               />{' '}
@@ -108,7 +111,7 @@ export const ControlContainer = () => {
             </p>
             <p className="leading-3">
               <CurrencyText
-                value={0}
+                value={currencyCost}
                 decimalScale={2}
                 fixedDecimalScale={false}
               />{' '}
@@ -132,7 +135,7 @@ export const ControlContainer = () => {
             </p>
             <p className="leading-3">
               <CurrencyText
-                value={0}
+                value={currencyCost}
                 decimalScale={2}
                 fixedDecimalScale={false}
               />{' '}
