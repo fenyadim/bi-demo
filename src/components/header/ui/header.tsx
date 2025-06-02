@@ -23,7 +23,6 @@ export const Header = () => {
 
   return (
     <>
-      <div className="fixed z-20 top-0 left-0 right-0 bg-background h-[70px]"></div>
       <motion.header
         className="sticky top-0 bg-background z-10 transition-all"
         style={{ top }}

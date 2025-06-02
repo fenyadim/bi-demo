@@ -1,3 +1,5 @@
+import { Link } from '@tanstack/react-router'
+
 import History from '@/assets/images/history.svg?react'
 import { Button, Checkbox } from '@/shared/ui'
 
@@ -16,13 +18,15 @@ export const OrderList = () => {
           </h2>
           <h2>Сетка фьючерсов</h2>
         </div>
-        <Button
-          className="h-6 w-[42px] pb-[7px] flex justify-end"
-          variant="ghost"
-          size="icon"
-        >
-          <History className="fill-muted size-5" />
-        </Button>
+        <Link to="/history">
+          <Button
+            className="h-6 w-[42px] pb-[7px] flex justify-end"
+            variant="ghost"
+            size="icon"
+          >
+            <History className="fill-muted size-5" />
+          </Button>
+        </Link>
       </div>
       {orders.length !== 0 ? (
         <div className="py-2.5!">

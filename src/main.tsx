@@ -1,18 +1,25 @@
+import { RouterProvider, createRouter } from '@tanstack/react-router'
 import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import ReactDOM from 'react-dom/client'
 
-import App from './App.tsx'
 import './globals.css'
+import { routeTree } from './routeTree.gen.ts'
 
-// WebFont.load({
-// 	custom: {
-// 		families: ['BinancePlex: n2,n3,n4,n5'],
-// 		urls: ['/styles/fonts.css'],
-// 	},
-// })
+const router = createRouter({ routeTree })
 
-createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+declare module '@tanstack/react-router' {
+  interface Register {
+    router: typeof router
+  }
+}
+
+const rootElement = document.getElementById('root')!
+
+if (!rootElement.innerHTML) {
+  const root = ReactDOM.createRoot(rootElement)
+  root.render(
+    <StrictMode>
+      <RouterProvider router={router} />
+    </StrictMode>,
+  )
+}

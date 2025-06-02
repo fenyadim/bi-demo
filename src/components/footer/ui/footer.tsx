@@ -17,9 +17,6 @@ export const Footer = () => {
           ))}
         </div>
       </footer>
-      <div className="fixed bottom-0 left-0 right-0 z-[60] flex items-center justify-center py-[9px]">
-        <span className="block h-1 w-[158px] rounded-full bg-foreground" />
-      </div>
     </>
   )
 }
