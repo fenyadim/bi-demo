@@ -3,23 +3,26 @@ import * as SliderPrimitive from '@radix-ui/react-slider'
 import { cn } from '@/lib/utils'
 import { Slider as SliderUI } from '@/shared/ui/slider-ui'
 
+export type MarksType = {
+  value: number
+  label?: string | number
+}
+
 interface ISlider extends React.ComponentProps<typeof SliderPrimitive.Root> {
-  countMarks: number
   showTooltip?: boolean
+  marks: MarksType[]
 }
 
 export const Slider = ({
   className,
-  countMarks,
   showTooltip = true,
   max = 100,
   defaultValue = [0],
   value = defaultValue,
+  marks,
   onValueChange,
   ...props
 }: ISlider) => {
-  const count = countMarks - 1
-
   return (
     <div className={cn('relative px-1', className)}>
       <SliderUI
@@ -28,24 +31,26 @@ export const Slider = ({
         onValueChange={onValueChange}
         showTooltip={showTooltip}
         {...props}
-      />
-      <ul className="flex justify-between w-full px-1">
-        {Array(countMarks)
-          .fill(0)
-          .map((_, index) => (
-            <li className="flex justify-center relative" key={index}>
+      >
+        <ul className="absolute -z-10 -top-[3px] -left-[3.5px] -right-[3.5px] flex justify-between">
+          {marks.map(({ value: title, label }) => (
+            <li
+              className="flex flex-col items-center justify-center relative"
+              key={title}
+            >
               <span
                 className={cn(
-                  'absolute -z-10 -top-px transform -translate-y-1/2 block size-2 border border-muted bg-background! rounded-xs rotate-45',
+                  'block size-2 border border-muted bg-background! rounded-xs rotate-45',
                   {
-                    'bg-primary! border-primary!':
-                      value[0] >= (index / count) * max,
+                    'bg-primary! border-primary!': value[0] >= title,
                   },
                 )}
               />
+              <p className="absolute top-3 text-muted">{label}</p>
             </li>
           ))}
-      </ul>
+        </ul>
+      </SliderUI>
     </div>
   )
 }

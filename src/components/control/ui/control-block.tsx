@@ -4,11 +4,18 @@ import { useState } from 'react'
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import Convertation from '@/assets/images/convertation.svg?react'
 import Info from '@/assets/images/info.svg?react'
-import { Button, CurrencyText, Input, Slider } from '@/shared/ui'
+import {
+  Button,
+  CurrencyText,
+  Input,
+  type MarksType,
+  Slider,
+} from '@/shared/ui'
 
 import { Checkbox } from './checkbox'
+import { LeverageDrawer } from './leverage-drawer'
 
-export const ControlContainer = () => {
+export const ControlBlock = () => {
   const [procentValue, setValueProcent] = useState([0])
 
   const balance = 0.43
@@ -17,6 +24,14 @@ export const ControlContainer = () => {
   const handleChangeProcent = (value: number[]) => {
     setValueProcent(value)
   }
+
+  const marks: MarksType[] = [
+    { value: 0 },
+    { value: 25 },
+    { value: 50 },
+    { value: 75 },
+    { value: 100 },
+  ]
 
   return (
     <section>
@@ -28,7 +43,7 @@ export const ControlContainer = () => {
           >
             Изолирован...
           </Button>
-          <Button variant="outline">30х</Button>
+          <LeverageDrawer />
           <Button variant="outline">П</Button>
         </div>
         <div className="flex justify-between">
@@ -90,9 +105,9 @@ export const ControlContainer = () => {
         <div className="pt-3 flex flex-col gap-1.5">
           <Slider
             className="mb-4"
+            marks={marks}
             value={procentValue}
             onValueChange={handleChangeProcent}
-            countMarks={5}
           />
           <Checkbox title="TP/SL" />
           <Checkbox title="Только сокращение" />

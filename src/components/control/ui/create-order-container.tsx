@@ -3,7 +3,7 @@ import BookOrders from '@/assets/images/book-orders.svg?react'
 import { Button, CurrencyText } from '@/shared/ui'
 
 import { stakes } from '../constants'
-import { ControlContainer } from './control-container.'
+import { ControlBlock } from './control-block'
 import { StockStakes } from './stock-stakes'
 
 export const CreateOrderContainer = () => {
@@ -44,7 +44,7 @@ export const CreateOrderContainer = () => {
           </Button>
         </div>
       </section>
-      <ControlContainer />
+      <ControlBlock />
     </div>
   )
 }

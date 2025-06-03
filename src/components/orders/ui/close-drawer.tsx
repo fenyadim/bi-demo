@@ -12,6 +12,7 @@ import {
   DrawerHeader,
   DrawerTitle,
   DrawerTrigger,
+  type MarksType,
   Slider,
 } from '@/shared/ui'
 
@@ -28,14 +29,20 @@ export const CloseDrawer = ({ children }: ICloseDrawer) => {
     setValue(value)
   }
 
+  const marks: MarksType[] = [
+    { value: 0 },
+    { value: 25 },
+    { value: 50 },
+    { value: 75 },
+    { value: 100 },
+  ]
+
   return (
     <Drawer>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
       <DrawerContent>
         <DrawerHeader>
-          <DrawerTitle className="text-[18px] font-medium tracking-normal">
-            Закрыть позицию
-          </DrawerTitle>
+          <DrawerTitle>Закрыть позицию</DrawerTitle>
         </DrawerHeader>
         <div className="px-4 pb-3.5">
           <div className="flex flex-col gap-2.5 pb-7 border-b-1">
@@ -91,7 +98,7 @@ export const CloseDrawer = ({ children }: ICloseDrawer) => {
               defaultValue={[100]}
               value={value}
               onValueChange={handleChange}
-              countMarks={5}
+              marks={marks}
               step={25}
               showTooltip={false}
             />

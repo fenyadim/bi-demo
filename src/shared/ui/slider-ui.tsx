@@ -63,6 +63,8 @@ function Slider({
         />
       </SliderPrimitive.Track>
 
+      {props.children}
+
       <SliderPrimitive.Thumb
         data-slot="slider-thumb"
         className="block shrink-0 border disabled:pointer-events-none disabled:opacity-50 focus-visible:outline-0 after:absolute after:left-1/2 after:-translate-x-1/2 after:top-1/2 after:-translate-y-1/2 after:bg-background after:size-3 after:rotate-45 after:block after:rounded-[3px] after:border-primary after:border"
