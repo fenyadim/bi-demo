@@ -1,13 +1,21 @@
-import { Link } from '@tanstack/react-router'
-
 import History from '@/assets/images/history.svg?react'
-import { Button, Checkbox } from '@/shared/ui'
+import { HistoryPage } from '@/components/history'
+import { useSheetToggle } from '@/shared/providers/sheet-provider'
+import {
+  Button,
+  Checkbox,
+  Sheet,
+  SheetContent,
+  SheetTrigger,
+} from '@/shared/ui'
 
 import { orders } from '../constants'
 import { EmptyBlock } from './empty-block'
 import { OrderCard } from './order-card'
 
 export const OrderList = () => {
+  const { isOpen, setIsOpen } = useSheetToggle()
+
   return (
     <div className="pt-2.5 pb-32 *:p-4">
       <div className="py-0! border-b-1 flex justify-between">
@@ -18,15 +26,20 @@ export const OrderList = () => {
           </h2>
           <h2>Сетка фьючерсов</h2>
         </div>
-        <Link to="/history">
-          <Button
-            className="h-6 w-[42px] pb-[7px] flex justify-end"
-            variant="ghost"
-            size="icon"
-          >
-            <History className="fill-muted size-5" />
-          </Button>
-        </Link>
+        <Sheet open={isOpen} onOpenChange={setIsOpen}>
+          <SheetTrigger asChild>
+            <Button
+              className="h-6 w-[42px] pb-[7px] flex justify-end"
+              variant="ghost"
+              size="icon"
+            >
+              <History className="fill-muted size-5" />
+            </Button>
+          </SheetTrigger>
+          <SheetContent className="w-full h-full pt-[70px] border-0">
+            <HistoryPage />
+          </SheetContent>
+        </Sheet>
       </div>
       {orders.length !== 0 ? (
         <div className="py-2.5!">

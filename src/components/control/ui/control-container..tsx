@@ -70,6 +70,7 @@ export const ControlContainer = () => {
               className="caret-accent h-full rounded-none border-none bg-secondary! font-[BinancePlex] text-center text-accent-foreground font-medium focus-visible:ring-0 peer p-0 pt-2 text-base"
               placeholder=""
               value={procentValue[0] === 0 ? '' : `${procentValue[0]} %`}
+              readOnly
             />
             <label className="truncate absolute top-2 left-0 right-0 flex items-center justify-center align-middle font-medium text-muted text-[10px] px-1 transform -translate-y-1/2 pointer-events-none peer-placeholder-shown:top-1/2 peer-placeholder-shown:text-sm group-focus-within:!top-2 group-focus-within:text-[10px]!">
               Сумма
