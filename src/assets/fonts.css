@@ -27,3 +27,10 @@
     local(BinancePlex),
     url('./fonts/BinancePlex-SemiBold.ttf') format('truetype');
 }
+
+@font-face {
+  font-family: 'SF-Pro';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./fonts/SF-Pro-Text-Regular.otf') format('opentype');
+}
