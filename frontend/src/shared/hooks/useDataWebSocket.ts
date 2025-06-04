@@ -35,7 +35,7 @@ const socketUrl = 'wss://stream.binance.com:9443/ws/'
 
 export const useDataWebSocket = (couple: string) => {
   const { lastJsonMessage } = useWebSocket<ResponseData>(
-    socketUrl + `${couple.toLowerCase()}@ticker`,
+    socketUrl + `${couple.toLowerCase()}@ticker100`,
     {
       onOpen: () => console.log('WebSockekt connection opened.'),
       onClose: () => console.log('WebSockekt connection closed.'),
