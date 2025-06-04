@@ -53,7 +53,43 @@ export const LeverageDrawer = () => {
               <Plus className="size-3" />
             </Button>
           </div>
-          <Slider value={value} onValueChange={set} max={75} marks={marks} />
+          <Slider
+            className="px-2"
+            value={value}
+            onValueChange={set}
+            max={75}
+            marks={marks}
+          />
+          <div className="*:flex *:gap-2 *:text-[13px] pt-3.5">
+            <div className="text-muted font-normal mb-3">
+              <span className="pt-0.5">*</span>
+              <div className="flex flex-col gap-3">
+                <p>
+                  Максимальный размер позиции при текущем кредитном плече:80 000
+                  USDT
+                </p>
+                <p>
+                  Вы можете увеличить кредитное плечо только при удерживании
+                  позиций. Обратите внимание, что это провлияет на удержание
+                  позиций.
+                </p>
+                <p>
+                  Обратите внимание, что изменение кредитного плеча также
+                  применяется к открытым позициям и открытым ордерам.
+                </p>
+              </div>
+            </div>
+            <div>
+              <span>*</span>
+              <p>
+                Выбор торговли с кредитный плечом, превышающим [{value}x],
+                увеличивает риск принудительной ликвидации. Всегда контролируйте
+                уровень риска. Для получения дополнительной информации
+                ознакомьтесь с нашими{' '}
+                <span className="text-accent">полезными статьями.</span>
+              </p>
+            </div>
+          </div>
         </div>
         <DrawerFooter className="pb-12">
           <DrawerClose asChild>
