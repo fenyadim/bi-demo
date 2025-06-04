@@ -1,5 +1,8 @@
+import _ from 'lodash'
+
 import History from '@/assets/images/history.svg?react'
 import { HistoryPage } from '@/components/history'
+import { trpc } from '@/lib/trpc'
 import { useSheetToggle } from '@/shared/providers/sheet-provider'
 import {
   Button,
@@ -9,12 +12,15 @@ import {
   SheetTrigger,
 } from '@/shared/ui'
 
-import { orders } from '../constants'
 import { EmptyBlock } from './empty-block'
 import { OrderCard } from './order-card'
 
 export const OrderList = () => {
   const { isOpen, setIsOpen } = useSheetToggle()
+
+  const { data: orders } = trpc.getOrders.useQuery()
+
+  if (!orders) return null
 
   return (
     <div className="pt-2.5 pb-32 *:p-4">
@@ -61,8 +67,8 @@ export const OrderList = () => {
               Закрыть все
             </Button>
           </div>
-          {orders.map(({ mode }, index) => (
-            <OrderCard key={index} mode={mode} />
+          {_.filter(orders, { openOrder: true }).map((item, index) => (
+            <OrderCard key={index} {...item} />
           ))}
         </div>
       ) : (

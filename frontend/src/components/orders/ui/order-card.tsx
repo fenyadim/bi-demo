@@ -1,21 +1,32 @@
+import type { IOrder } from '@bi-demo/backend/src/router/getOrders'
 import type { CSSProperties } from 'react'
 
 import Plus from '@/assets/images/plus.svg?react'
 import Share from '@/assets/images/share.svg?react'
 import { modeToStyle } from '@/shared/constants'
-import type { ModeType } from '@/shared/types'
+import { useDataWebSocket } from '@/shared/hooks/useDataWebSocket'
 import { Badge, Button, CurrencyText, Levels } from '@/shared/ui'
 
 import { CloseDrawer } from './close-drawer'
 import { OrderItem } from './order-item'
 
-interface IOrderCard {
-  mode: ModeType
-}
+export const OrderCard = ({ couple, status, price, shoulder }: IOrder) => {
+  const { marking } = useDataWebSocket(couple)
 
-export const OrderCard = ({ mode }: IOrderCard) => {
+  const marginValue = 12
+  /** Цена маркировки */
+  const markingPrice = marking
+  /** Размер (USDT) */
+  const values = marginValue * shoulder
+  /** Размер в крипте */
+  const cryptoValue = values / price
+  const longPnl = (markingPrice - price) * cryptoValue
+  const shortPnl = (price - markingPrice) * cryptoValue
+  const pnl = status === 'long' ? longPnl : shortPnl
+  const roe = (pnl / marginValue) * 100
+
   const bgColor: CSSProperties = {
-    backgroundColor: `var(--${modeToStyle[mode]})`,
+    backgroundColor: `var(--${modeToStyle[status]})`,
   }
 
   return (
@@ -23,11 +34,11 @@ export const OrderCard = ({ mode }: IOrderCard) => {
       <div className="flex justify-between items-center">
         <div className="flex items-center gap-1 h-min">
           <span className="block rounded-xs text-center size-4" style={bgColor}>
-            {mode === 'long' ? 'К' : 'П'}
+            {status === 'long' ? 'К' : 'П'}
           </span>
-          <h2 className="text-base font-medium">TONUSDT</h2>
+          <h2 className="text-base font-medium">{couple}</h2>
           <Badge value="Бесср" />
-          <Badge value="Изолированная 45X" />
+          <Badge value={`Изолированная ${shoulder}X`} />
           <Levels closeCount={2} />
         </div>
         <Button className="size-4" variant="ghost" size="icon">
@@ -36,14 +47,27 @@ export const OrderCard = ({ mode }: IOrderCard) => {
       </div>
       <div className="flex flex-col gap-1">
         <div className="flex justify-between">
-          <OrderItem title="PnL (USDT)" mode="long" size="lg">
-            <CurrencyText value={0.0} decimalScale={2} prefix="+" />
-          </OrderItem>
-          <OrderItem title="ROI" mode="long" size="lg" align="end">
+          <OrderItem
+            title="PnL (USDT)"
+            mode={pnl > 0 ? 'long' : 'short'}
+            size="lg"
+          >
             <CurrencyText
-              value={0.14}
+              value={pnl}
               decimalScale={2}
-              prefix="+"
+              prefix={pnl > 0 ? '+' : ''}
+            />
+          </OrderItem>
+          <OrderItem
+            title="ROI"
+            mode={roe > 0 ? 'long' : 'short'}
+            size="lg"
+            align="end"
+          >
+            <CurrencyText
+              value={roe}
+              decimalScale={2}
+              prefix={roe > 0 ? '+' : ''}
               suffix=" %"
             />
           </OrderItem>
@@ -51,7 +75,7 @@ export const OrderCard = ({ mode }: IOrderCard) => {
         <div className="grid grid-cols-3 grid-rows-2 gap-1.5 mb-1.5">
           <OrderItem title="Размер (USDT)">
             <CurrencyText
-              value={233.5716}
+              value={values}
               decimalScale={4}
               fixedDecimalScale={false}
             />
@@ -64,14 +88,14 @@ export const OrderCard = ({ mode }: IOrderCard) => {
           </OrderItem>
           <OrderItem title="Цена входа (USDT)">
             <CurrencyText
-              value={3.3036}
+              value={price}
               decimalScale={4}
               fixedDecimalScale={false}
             />
           </OrderItem>
           <OrderItem title="Цена маркировки (U..." underline={false}>
             <CurrencyText
-              value={3.3038631}
+              value={markingPrice}
               decimalScale={7}
               fixedDecimalScale={false}
             />

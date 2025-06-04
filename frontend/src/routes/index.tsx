@@ -4,7 +4,6 @@ import { CreateOrderContainer } from '@/components/control'
 import { Footer } from '@/components/footer'
 import { Header } from '@/components/header'
 import { OrderList } from '@/components/orders'
-import { trpc } from '@/lib/trpc'
 import { cn } from '@/lib/utils'
 import { useSheetToggle } from '@/shared/providers/sheet-provider'
 
@@ -14,10 +13,6 @@ export const Route = createFileRoute('/')({
 
 function Index() {
   const { isOpen } = useSheetToggle()
-
-  const { data } = trpc.getTest.useQuery()
-
-  console.log(data)
 
   return (
     <>
