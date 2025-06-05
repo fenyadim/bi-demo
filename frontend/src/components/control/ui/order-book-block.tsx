@@ -2,6 +2,7 @@ import { useMemo } from 'react'
 
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import BookOrders from '@/assets/images/book-orders.svg?react'
+import { useStorage } from '@/shared/hooks'
 import { useOrderBookWs } from '@/shared/hooks/useOrderBookWs'
 import type { IStakes } from '@/shared/types'
 import { Button, CurrencyText } from '@/shared/ui'
@@ -10,7 +11,8 @@ import { FundingElement } from './funding-element'
 import { StockStakes } from './stock-stakes'
 
 export const OrderBookBlock = () => {
-  const { orderBook } = useOrderBookWs('BTCUSDT')
+  const { value } = useStorage<string>('couple')
+  const { orderBook } = useOrderBookWs(value)
 
   const bids = useMemo(() => orderBook.bids.slice(0, 7), [orderBook.bids])
   const asks = useMemo(

@@ -1,9 +1,11 @@
 import { useMemo } from 'react'
 
+import { useStorage } from '@/shared/hooks'
 import { useTickerWs } from '@/shared/hooks/useTickerWs'
 
 export const FundingElement = () => {
-  const { ticker } = useTickerWs()
+  const { value } = useStorage<string>('couple')
+  const { ticker } = useTickerWs(value)
 
   const funding = (parseFloat(ticker.fundingRate) * 100).toFixed(4)
 

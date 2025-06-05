@@ -7,7 +7,7 @@ import svgr from 'vite-plugin-svgr'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: '/bi-demo',
+  base: '/',
   plugins: [
     TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
     react(),
