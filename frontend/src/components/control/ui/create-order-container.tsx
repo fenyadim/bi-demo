@@ -1,3 +1,5 @@
+import { useMemo } from 'react'
+
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import BookOrders from '@/assets/images/book-orders.svg?react'
 import { useOrderBookWs } from '@/shared/hooks/useOrderBookWs'
@@ -8,7 +10,7 @@ import { ControlBlock } from './control-block'
 import { StockStakes } from './stock-stakes'
 
 export const CreateOrderContainer = () => {
-  const { orderBook } = useOrderBookWs('BTCUSDT')
+  const { orderBook } = useOrderBookWs('BTCUSDT', 50)
 
   const asks: IStakes[] = orderBook.asks.map((item) => ({
     price: Number(item[0]),
@@ -20,8 +22,8 @@ export const CreateOrderContainer = () => {
     amount: Number(item[0]) * Number(item[1]),
   }))
 
-  const limitedBids = bids.slice(-7).reverse()
-  const limitedAsks = asks.slice(-7)
+  const limitedBids = useMemo(() => bids.slice(0, 7), [bids])
+  const limitedAsks = useMemo(() => asks.slice(0, 7).reverse(), [asks])
 
   return (
     <div className="grid grid-cols-[1.3fr_2fr] gap-4 pt-0 p-4">

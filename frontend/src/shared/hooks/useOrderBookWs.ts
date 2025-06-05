@@ -1,4 +1,3 @@
-import { throttle } from 'lodash'
 import { useCallback, useEffect, useState } from 'react'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 
@@ -71,15 +70,37 @@ export const useOrderBookWs = (
       }
     })
 
-    // Сортировка: bids по убыванию, asks по возрастанию
+    // Сортировка и проверка
+    const sortedBids = updatedBids.sort(
+      (a, b) => parseFloat(b[0]) - parseFloat(a[0]),
+    )
+    const sortedAsks = updatedAsks.sort(
+      (a, b) => parseFloat(a[0]) - parseFloat(b[0]),
+    )
+
+    // Проверка аномалии
+    if (sortedBids.length > 0 && sortedAsks.length > 0) {
+      const bestBid = parseFloat(sortedBids[0][0])
+      const bestAsk = parseFloat(sortedAsks[0][0])
+      if (bestBid > bestAsk) {
+        console.warn(
+          `Anomaly detected: Best bid (${bestBid}) > Best ask (${bestAsk})`,
+          {
+            bids: sortedBids.slice(0, 7),
+            asks: sortedAsks.slice(0, 7),
+          },
+        )
+      }
+    }
+
     return {
-      bids: updatedBids.sort((a, b) => parseFloat(a[0]) - parseFloat(b[0])),
-      asks: updatedAsks.sort((a, b) => parseFloat(b[0]) - parseFloat(a[0])),
+      bids: sortedBids,
+      asks: sortedAsks,
     }
   }
 
   const handleMessage = useCallback(
-    throttle((message: WebSocketMessage) => {
+    (message: WebSocketMessage) => {
       if (message.topic === `orderbook.${depth}.${symbol}`) {
         const { type, data } = message
         if (type === 'snapshot') {
@@ -88,7 +109,7 @@ export const useOrderBookWs = (
           setOrderBook((prev) => applyDeltaUpdate(prev, data))
         }
       }
-    }, 1000),
+    },
     [symbol, depth],
   )
 
@@ -97,7 +118,7 @@ export const useOrderBookWs = (
     if (lastJsonMessage) {
       handleMessage(lastJsonMessage as WebSocketMessage)
     }
-  }, [lastJsonMessage, symbol, depth, handleMessage])
+  }, [lastJsonMessage, handleMessage])
 
   // Отписка при размонтировании
   useEffect(() => {
