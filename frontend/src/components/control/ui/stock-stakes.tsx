@@ -15,10 +15,14 @@ export const StockStakes = ({ stakes, mode }: IStockStakes) => {
     color: `var(--${modeToStyle[mode]})`,
   }
 
-  const fillBox: (fillProcent: number) => CSSProperties = (fillProcent) => ({
-    backgroundColor: `var(--${modeToStyle[mode]})`,
-    width: `${fillProcent * 100}%`,
-  })
+  const fillBox: (fillProcent: number) => CSSProperties = (fillProcent) => {
+    const fill = fillProcent > 1 ? 1 : fillProcent
+
+    return {
+      backgroundColor: `var(--${modeToStyle[mode]})`,
+      width: `${fill * 100}%`,
+    }
+  }
 
   return (
     <div>
@@ -30,7 +34,7 @@ export const StockStakes = ({ stakes, mode }: IStockStakes) => {
           <p>{formatter(amount, 2).replace(/\./g, ',')}</p>
           <div
             className="absolute -z-10 right-0 opacity-5 h-full"
-            style={fillBox(fillProcent)}
+            style={fillBox(fillProcent!)}
           />
         </div>
       ))}

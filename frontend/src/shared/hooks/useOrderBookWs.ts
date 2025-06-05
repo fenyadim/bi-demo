@@ -1,18 +1,31 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import useWebSocket, { ReadyState } from 'react-use-websocket'
 
 import type { OrderBookData, OrderBookState, WebSocketMessage } from '../types'
 
 const WS_URL = 'wss://stream.bybit.com/v5/public/linear'
 
+interface SpreadData {
+  timestamp: number
+  spread: number
+}
+
+interface OrderBookHook {
+  orderBook: OrderBookState
+  spreadHistory: SpreadData[]
+  readyState: ReadyState
+}
+
 export const useOrderBookWs = (
   symbol: string = 'BTCUSDT',
   depth: number = 50,
-): { orderBook: OrderBookState; readyState: ReadyState } => {
+): OrderBookHook => {
   const [orderBook, setOrderBook] = useState<OrderBookState>({
     bids: [],
     asks: [],
   })
+  const [spreadHistory, setSpreadHistory] = useState<SpreadData[]>([])
+  const bufferRef = useRef<OrderBookState>({ bids: [], asks: [] }) // Буфер для хранения актуального состояния
 
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     WS_URL,
@@ -104,9 +117,9 @@ export const useOrderBookWs = (
       if (message.topic === `orderbook.${depth}.${symbol}`) {
         const { type, data } = message
         if (type === 'snapshot') {
-          setOrderBook({ bids: data.b || [], asks: data.a || [] })
+          bufferRef.current = { bids: data.b || [], asks: data.a || [] }
         } else if (type === 'delta') {
-          setOrderBook((prev) => applyDeltaUpdate(prev, data))
+          bufferRef.current = applyDeltaUpdate(bufferRef.current, data)
         }
       }
     },
@@ -120,6 +133,28 @@ export const useOrderBookWs = (
     }
   }, [lastJsonMessage, handleMessage])
 
+  // Периодическое обновление UI
+  useEffect(() => {
+    const updateInterval = 1000 // Обновление UI каждую 1 секунду
+    const intervalId = setInterval(() => {
+      const newOrderBook = { ...bufferRef.current }
+      setOrderBook(newOrderBook)
+
+      // Вычисление спреда
+      if (newOrderBook.bids.length > 0 && newOrderBook.asks.length > 0) {
+        const spread =
+          parseFloat(newOrderBook.asks[0][0]) -
+          parseFloat(newOrderBook.bids[0][0])
+        setSpreadHistory((prev) => [
+          ...prev.slice(-19), // Ограничиваем до 20 точек для графика
+          { timestamp: Date.now(), spread },
+        ])
+      }
+    }, updateInterval)
+
+    return () => clearInterval(intervalId) // Очистка при размонтировании
+  }, [])
+
   // Отписка при размонтировании
   useEffect(() => {
     return () => {
@@ -132,5 +167,5 @@ export const useOrderBookWs = (
     }
   }, [readyState, sendJsonMessage, symbol, depth])
 
-  return { orderBook, readyState }
+  return { orderBook, readyState, spreadHistory }
 }
