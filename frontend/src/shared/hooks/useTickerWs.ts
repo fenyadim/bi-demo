@@ -1,9 +1,8 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
-import useWebSocket, { ReadyState } from 'react-use-websocket'
+import { useCallback } from 'react'
 
 import type { WebSocketMessage } from '../types'
-
-const WS_URL = 'wss://stream.bybit.com/v5/public/linear'
+import { useBufferState } from './useBufferState'
+import { useWebSocketConnection } from './useWebSocketConnection'
 
 interface TickerState {
   fundingRate: string
@@ -12,39 +11,16 @@ interface TickerState {
   markPrice: string
 }
 
+const initialTickerState: TickerState = {
+  fundingRate: '',
+  nextFundingTime: '',
+  lastPrice: '',
+  markPrice: '',
+}
+
 export const useTickerWs = (symbol: string = 'BTCUSDT') => {
-  const bufferRef = useRef<TickerState>({
-    fundingRate: '',
-    nextFundingTime: '',
-    lastPrice: '',
-    markPrice: '',
-  })
-
-  const [ticker, setTicker] = useState<TickerState>({
-    fundingRate: '',
-    nextFundingTime: '',
-    lastPrice: '',
-    markPrice: '',
-  })
-
-  const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
-    WS_URL,
-    {
-      onOpen: () => console.log('WebSocket connection opened'),
-      onClose: () => console.log('WebSocket connection closed'),
-      onError: (event) => console.error('WebSocket error:', event),
-      shouldReconnect: () => true,
-    },
-  )
-
-  useEffect(() => {
-    if (readyState === ReadyState.OPEN) {
-      sendJsonMessage({
-        op: 'subscribe',
-        args: [`tickers.${symbol}`],
-      })
-    }
-  }, [readyState, sendJsonMessage, symbol])
+  const { state: ticker, bufferRef } =
+    useBufferState<TickerState>(initialTickerState)
 
   const handleMessage = useCallback(
     (message: WebSocketMessage<TickerState>) => {
@@ -55,35 +31,14 @@ export const useTickerWs = (symbol: string = 'BTCUSDT') => {
         bufferRef.current = { ...bufferRef.current, ...data }
       }
     },
-    [],
+    [bufferRef],
   )
 
-  useEffect(() => {
-    if (lastJsonMessage) {
-      handleMessage(lastJsonMessage as WebSocketMessage<TickerState>)
-    }
-  }, [lastJsonMessage, handleMessage])
+  const { readyState } = useWebSocketConnection({
+    symbol,
+    topic: 'tickers',
+    onMessage: handleMessage,
+  })
 
-  useEffect(() => {
-    const updateInterval = 1000 // Обновление UI каждую 1 секунду
-    const intervalId = setInterval(() => {
-      const newTicker = { ...bufferRef.current }
-      setTicker(newTicker)
-    }, updateInterval)
-
-    return () => clearInterval(intervalId) // Очистка при размонтировании
-  }, [])
-
-  useEffect(() => {
-    return () => {
-      if (readyState === ReadyState.OPEN) {
-        sendJsonMessage({
-          op: 'unsubscribe',
-          args: [`tickers.${symbol}`],
-        })
-      }
-    }
-  }, [readyState, sendJsonMessage, symbol])
-
-  return { ticker }
+  return { ticker, readyState }
 }
