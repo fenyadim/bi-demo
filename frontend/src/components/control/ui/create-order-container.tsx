@@ -8,17 +8,20 @@ import { ControlBlock } from './control-block'
 import { StockStakes } from './stock-stakes'
 
 export const CreateOrderContainer = () => {
-  const data = useOrderBookWs('btcusdt')
+  const { orderBook } = useOrderBookWs('BTCUSDT')
 
-  const asks: IStakes[] = data.asks.map((item) => ({
+  const asks: IStakes[] = orderBook.asks.map((item) => ({
     price: Number(item[0]),
     amount: Number(item[0]) * Number(item[1]),
   }))
 
-  const bids: IStakes[] = data.bids.map((item) => ({
+  const bids: IStakes[] = orderBook.bids.map((item) => ({
     price: Number(item[0]),
     amount: Number(item[0]) * Number(item[1]),
   }))
+
+  const limitedBids = bids.slice(-7).reverse()
+  const limitedAsks = asks.slice(-7)
 
   return (
     <div className="grid grid-cols-[1.3fr_2fr] gap-4 pt-0 p-4">
@@ -33,7 +36,7 @@ export const CreateOrderContainer = () => {
           <h3>Цена (USDT)</h3>
           <h3 className="text-end">Сумма (USDT)</h3>
         </div>
-        <StockStakes stakes={asks} mode="short" />
+        <StockStakes stakes={limitedAsks} mode="short" />
         <div className="flex flex-col items-center my-0.5">
           <h2 className="font-medium text-lg leading-6">
             <CurrencyText value={109726.5} />
@@ -42,7 +45,7 @@ export const CreateOrderContainer = () => {
             <CurrencyText value={109704.6} />
           </p>
         </div>
-        <StockStakes stakes={bids} mode="long" />
+        <StockStakes stakes={limitedBids} mode="long" />
         <div className="mt-2 grid grid-cols-[1fr_16px] items-center gap-2">
           <Button
             className="flex justify-between h-fit font-normal text-muted text-xs w-full py-0.5 px-2 pr-1.5 rounded-sm"
