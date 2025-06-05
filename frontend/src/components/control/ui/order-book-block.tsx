@@ -6,6 +6,7 @@ import { useOrderBookWs } from '@/shared/hooks/useOrderBookWs'
 import type { IStakes } from '@/shared/types'
 import { Button, CurrencyText } from '@/shared/ui'
 
+import { FundingElement } from './funding-element'
 import { StockStakes } from './stock-stakes'
 
 export const OrderBookBlock = () => {
@@ -49,12 +50,7 @@ export const OrderBookBlock = () => {
 
   return (
     <section className="h-full w-full flex flex-col gap-1">
-      <div>
-        <h3 className="border-b-1 border-dotted w-fit text-muted text-[10px] leading-3">
-          Ставка / Осталось
-        </h3>
-        <p>0,0065 % / 04:13:49</p>
-      </div>
+      <FundingElement />
       <div className="flex justify-between mb-1 *:w-min *:text-muted *:text-[10px] *:leading-3">
         <h3>Цена (USDT)</h3>
         <h3 className="text-end">Сумма (USDT)</h3>

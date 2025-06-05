@@ -113,7 +113,7 @@ export const useOrderBookWs = (
   }
 
   const handleMessage = useCallback(
-    (message: WebSocketMessage) => {
+    (message: WebSocketMessage<OrderBookData>) => {
       if (message.topic === `orderbook.${depth}.${symbol}`) {
         const { type, data } = message
         if (type === 'snapshot') {
@@ -129,7 +129,7 @@ export const useOrderBookWs = (
   // Обработка входящих сообщений
   useEffect(() => {
     if (lastJsonMessage) {
-      handleMessage(lastJsonMessage as WebSocketMessage)
+      handleMessage(lastJsonMessage as WebSocketMessage<OrderBookData>)
     }
   }, [lastJsonMessage, handleMessage])
 

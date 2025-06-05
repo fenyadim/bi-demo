@@ -14,9 +14,9 @@ export interface OrderBookData {
   a: OrderBookEntry // Asks
 }
 
-export interface WebSocketMessage {
+export interface WebSocketMessage<T> {
   topic: string
-  data: OrderBookData
+  data: T
   type: 'snapshot' | 'delta' // Type of update
 }
 
