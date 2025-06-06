@@ -1,9 +1,13 @@
 import Arrow from '@/assets/images/arrow-down.svg?react'
-import { useStorage } from '@/shared/hooks'
-import { Badge, Button } from '@/shared/ui'
+import { cn } from '@/lib/utils'
+import { useStorage, useTickerWs } from '@/shared/hooks'
+import { Badge, Button, CurrencyText } from '@/shared/ui'
 
 export const CoupleCoins = () => {
   const { value } = useStorage('couple', 'BTCUSDT')
+  const { ticker } = useTickerWs(value)
+
+  const percent = ticker.price24hPcnt * 100
 
   return (
     <Button className="flex flex-col items-start gap-0 p-0" variant="ghost">
@@ -12,7 +16,19 @@ export const CoupleCoins = () => {
         <Badge value="Бесср" className="text-[10px] px-[2.5px]" />
         <Arrow className="fill-foreground size-4.5" />
       </div>
-      <p className="text-success text-xs">+2,45 %</p>
+      <p
+        className={cn('text-xs', {
+          'text-success': percent > 0,
+          'text-fail': percent < 0,
+        })}
+      >
+        <CurrencyText
+          value={percent}
+          decimalScale={2}
+          suffix=" %"
+          prefix={percent > 0 ? '+' : ''}
+        />
+      </p>
     </Button>
   )
 }

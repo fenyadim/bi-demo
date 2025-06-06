@@ -2,17 +2,24 @@ import { useMemo } from 'react'
 
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import BookOrders from '@/assets/images/book-orders.svg?react'
-import { useStorage } from '@/shared/hooks'
-import { useOrderBookWs } from '@/shared/hooks/useOrderBookWs'
+import { useOrderBookWs, useStorage, useTickerWs } from '@/shared/hooks'
 import type { IStakes } from '@/shared/types'
 import { Button, CurrencyText } from '@/shared/ui'
 
-import { FundingElement } from './funding-element'
+import { countdownCalc } from '../lib/countdown'
 import { StockStakes } from './stock-stakes'
 
 export const OrderBookBlock = () => {
   const { value } = useStorage<string>('couple')
   const { orderBook } = useOrderBookWs(value)
+  const { ticker } = useTickerWs(value)
+
+  const funding = (ticker.fundingRate * 100).toFixed(4)
+
+  const countdown = useMemo(
+    () => countdownCalc(ticker.nextFundingTime),
+    [ticker],
+  )
 
   const bids = useMemo(() => orderBook.bids.slice(0, 7), [orderBook.bids])
   const asks = useMemo(
@@ -52,7 +59,14 @@ export const OrderBookBlock = () => {
 
   return (
     <section className="h-full w-full flex flex-col gap-1">
-      <FundingElement />
+      <div>
+        <h3 className="border-b-1 border-dotted w-fit text-muted text-[10px] leading-3">
+          Ставка / Осталось
+        </h3>
+        <p>
+          {funding} % / {countdown}
+        </p>
+      </div>
       <div className="flex justify-between mb-1 *:w-min *:text-muted *:text-[10px] *:leading-3">
         <h3>Цена (USDT)</h3>
         <h3 className="text-end">Сумма (USDT)</h3>
@@ -60,10 +74,10 @@ export const OrderBookBlock = () => {
       <StockStakes stakes={limitedAsks} mode="short" />
       <div className="flex flex-col items-center my-0.5">
         <h2 className="font-medium text-lg leading-6">
-          <CurrencyText value={109726.5} />
+          <CurrencyText value={ticker.lastPrice} />
         </h2>
         <p className="text-muted border-b-1 border-dotted w-fit">
-          <CurrencyText value={109704.6} />
+          <CurrencyText value={ticker.markPrice} />
         </p>
       </div>
       <StockStakes stakes={limitedBids} mode="long" />

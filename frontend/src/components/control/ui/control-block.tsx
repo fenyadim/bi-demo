@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import Convertation from '@/assets/images/convertation.svg?react'
 import Info from '@/assets/images/info.svg?react'
+import { useStorage } from '@/shared/hooks'
 import {
   Button,
   CurrencyText,
@@ -17,9 +18,9 @@ import { LeverageDrawer } from './leverage-drawer'
 
 export const ControlBlock = () => {
   const [procentValue, setValueProcent] = useState([0])
+  const { value: balance } = useStorage<number>('balance', 0)
 
-  const balance = 0.43
-  const currencyCost = balance * (procentValue[0] / 100)
+  const currencyCost = balance! * (procentValue[0] / 100)
 
   const handleChangeProcent = (value: number[]) => {
     setValueProcent(value)

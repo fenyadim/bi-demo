@@ -19,8 +19,8 @@ export const useWebSocketConnection = <T>({
   const { sendJsonMessage, lastJsonMessage, readyState } = useWebSocket(
     WS_URL,
     {
-      onOpen: () => console.log('WebSocket connection opened'),
-      onClose: () => console.log('WebSocket connection closed'),
+      onOpen: () => console.log('WebSocket connection opened ' + topic),
+      onClose: () => console.log('WebSocket connection closed' + topic),
       onError: (event) => console.error('WebSocket error:', event),
       shouldReconnect: () => true,
     },

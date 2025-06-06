@@ -1,4 +1,5 @@
 import { useCallback } from 'react'
+import type { ReadyState } from 'react-use-websocket'
 
 import type { WebSocketMessage } from '../types'
 import { useBufferState } from './useBufferState'
@@ -9,6 +10,7 @@ interface TickerState {
   nextFundingTime: string
   lastPrice: string
   markPrice: string
+  price24hPcnt: string
 }
 
 const initialTickerState: TickerState = {
@@ -16,15 +18,22 @@ const initialTickerState: TickerState = {
   nextFundingTime: '',
   lastPrice: '',
   markPrice: '',
+  price24hPcnt: '',
 }
 
-export const useTickerWs = (symbol: string = 'BTCUSDT') => {
+interface Return {
+  ticker: Record<keyof TickerState, number>
+  readyState: ReadyState
+}
+
+export const useTickerWs = (symbol: string = 'BTCUSDT'): Return => {
   const { state: ticker, bufferRef } =
     useBufferState<TickerState>(initialTickerState)
 
   const handleMessage = useCallback(
     (message: WebSocketMessage<TickerState>) => {
       const { type, data } = message
+
       if (type === 'snapshot') {
         bufferRef.current = { ...data }
       } else if (type === 'delta') {
@@ -40,5 +49,14 @@ export const useTickerWs = (symbol: string = 'BTCUSDT') => {
     onMessage: handleMessage,
   })
 
-  return { ticker, readyState }
+  return {
+    ticker: {
+      fundingRate: Number(ticker.fundingRate),
+      lastPrice: Number(ticker.lastPrice),
+      markPrice: Number(ticker.markPrice),
+      nextFundingTime: Number(ticker.nextFundingTime),
+      price24hPcnt: Number(ticker.price24hPcnt),
+    },
+    readyState,
+  }
 }

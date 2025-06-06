@@ -1,5 +1,8 @@
+import { useState } from 'react'
+
 import { useStorage } from '@/shared/hooks'
 import {
+  Button,
   Input,
   Select,
   SelectContent,
@@ -10,15 +13,27 @@ import {
 } from '@/shared/ui'
 
 export const EditPage = () => {
-  const { value, set } = useStorage<string>('couple')
+  const { value: coupleValue, set: setCoupleValue } =
+    useStorage<string>('couple')
+
+  const { value: balanceValue, set: setBalanceValue } = useStorage<number>(
+    'balance',
+    100,
+  )
+
+  const [balance, setBalance] = useState(`${balanceValue}`)
+
+  const handleSave = () => {
+    setBalanceValue(parseFloat(balance))
+  }
 
   const couple = ['BTCUSDT', 'ETCUSDT', 'LTCUSDT']
 
   return (
-    <div>
-      <div>
+    <div className="flex flex-col gap-4 p-3">
+      <div className="flex flex-col gap-1">
         <label>Выбор пары</label>
-        <Select defaultValue={value} onValueChange={set}>
+        <Select defaultValue={coupleValue} onValueChange={setCoupleValue}>
           <SelectTrigger className="w-[180px]">
             <SelectValue placeholder="Выбор пары" />
           </SelectTrigger>
@@ -33,9 +48,19 @@ export const EditPage = () => {
           </SelectContent>
         </Select>
       </div>
-      <div>
-        <label htmlFor="balance">Баланс</label>
-        <Input id="balane" />
+      <div className="flex gap-2 items-end">
+        <div className="flex flex-col gap-1">
+          <label htmlFor="balance">Баланс</label>
+          <Input
+            id="balane"
+            type="number"
+            value={balance}
+            onChange={(e) => setBalance(e.target.value)}
+          />
+        </div>
+        <Button variant="secondary" onClick={handleSave}>
+          Сохранить
+        </Button>
       </div>
     </div>
   )
