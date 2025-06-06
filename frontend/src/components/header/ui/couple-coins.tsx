@@ -1,11 +1,12 @@
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import { cn } from '@/lib/utils'
-import { useStorage, useTickerWs } from '@/shared/hooks'
+import { useStorage } from '@/shared/hooks'
+import { useTicker } from '@/shared/providers/ticker-provider'
 import { Badge, Button, CurrencyText } from '@/shared/ui'
 
 export const CoupleCoins = () => {
   const { value } = useStorage('couple', 'BTCUSDT')
-  const { ticker } = useTickerWs(value)
+  const { ticker } = useTicker()
 
   const percent = ticker.price24hPcnt * 100
 

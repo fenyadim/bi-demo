@@ -1,18 +1,19 @@
-import { useMemo } from 'react'
+import { memo, useMemo } from 'react'
 
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import BookOrders from '@/assets/images/book-orders.svg?react'
-import { useOrderBookWs, useStorage, useTickerWs } from '@/shared/hooks'
+import { useOrderBookWs, useStorage } from '@/shared/hooks'
+import { useTicker } from '@/shared/providers/ticker-provider'
 import type { IStakes } from '@/shared/types'
 import { Button, CurrencyText } from '@/shared/ui'
 
 import { countdownCalc } from '../lib/countdown'
 import { StockStakes } from './stock-stakes'
 
-export const OrderBookBlock = () => {
+const OrderBookBlockMemo = () => {
   const { value } = useStorage<string>('couple')
   const { orderBook } = useOrderBookWs(value)
-  const { ticker } = useTickerWs(value)
+  const { ticker } = useTicker()
 
   const funding = (ticker.fundingRate * 100).toFixed(4)
 
@@ -97,3 +98,5 @@ export const OrderBookBlock = () => {
     </section>
   )
 }
+
+export const OrderBookBlock = memo(OrderBookBlockMemo)

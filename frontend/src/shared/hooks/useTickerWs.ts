@@ -1,4 +1,4 @@
-import { useCallback } from 'react'
+import { useCallback, useMemo } from 'react'
 import type { ReadyState } from 'react-use-websocket'
 
 import type { WebSocketMessage } from '../types'
@@ -40,7 +40,7 @@ export const useTickerWs = (symbol: string = 'BTCUSDT'): Return => {
         bufferRef.current = { ...bufferRef.current, ...data }
       }
     },
-    [bufferRef],
+    [],
   )
 
   const { readyState } = useWebSocketConnection({
@@ -49,14 +49,25 @@ export const useTickerWs = (symbol: string = 'BTCUSDT'): Return => {
     onMessage: handleMessage,
   })
 
-  return {
-    ticker: {
+  const memoizedTicker = useMemo(
+    () => ({
       fundingRate: Number(ticker.fundingRate),
       lastPrice: Number(ticker.lastPrice),
       markPrice: Number(ticker.markPrice),
       nextFundingTime: Number(ticker.nextFundingTime),
       price24hPcnt: Number(ticker.price24hPcnt),
-    },
+    }),
+    [
+      ticker.fundingRate,
+      ticker.lastPrice,
+      ticker.markPrice,
+      ticker.nextFundingTime,
+      ticker.price24hPcnt,
+    ],
+  )
+
+  return {
+    ticker: memoizedTicker,
     readyState,
   }
 }

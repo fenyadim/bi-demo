@@ -6,47 +6,44 @@ export interface IOrder {
 	/** Цена входа */
 	price: number
 	/** Плечо */
-	shoulder: number
+	leverage: number
 	/** Маржа (USDT) */
 	marginValue: number
 	/** Валютная пара */
 	couple: string
-	/** Цена ликвидации */
-	liquidation: number
 	/** Открытый ордер */
-	openOrder: boolean
+	isOpen: boolean
 }
 
-export const getOrdersTrpcRoute = trpc.procedure.query(() => {
-	const orders: IOrder[] = [
-		{
-			status: 'long',
-			price: 100,
-			shoulder: 30,
-			marginValue: 100,
-			couple: 'BTCUSDT',
-			liquidation: 100,
-			openOrder: true,
-		},
-		{
-			status: 'short',
-			price: 100,
-			shoulder: 45,
-			marginValue: 100,
-			couple: 'BTCUSDT',
-			liquidation: 100,
-			openOrder: true,
-		},
-		{
-			status: 'long',
-			price: 100,
-			shoulder: 10,
-			marginValue: 100,
-			couple: 'BTCUSDT',
-			liquidation: 100,
-			openOrder: false,
-		},
-	]
+export const getOrdersTrpcRoute = trpc.procedure.query(async ({ ctx }) => {
+	const orders = await ctx.prisma.order.findMany()
+
+	// const orders: IOrder[] = [
+	// 	{
+	// 		status: 'long',
+	// 		price: 100,
+	// 		leverage: 30,
+	// 		marginValue: 100,
+	// 		couple: 'BTCUSDT',
+	// 		isOpen: true,
+	// 	},
+	// 	{
+	// 		status: 'short',
+	// 		price: 100,
+	// 		leverage: 45,
+	// 		marginValue: 100,
+	// 		couple: 'BTCUSDT',
+	// 		isOpen: true,
+	// 	},
+	// 	{
+	// 		status: 'long',
+	// 		price: 100,
+	// 		leverage: 10,
+	// 		marginValue: 100,
+	// 		couple: 'BTCUSDT',
+	// 		isOpen: false,
+	// 	},
+	// ]
 
 	return orders
 })

@@ -1,9 +1,12 @@
+import { useQuery } from '@tanstack/react-query'
 import { Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 
 import Arrow from '@/assets/images/arrow-down.svg?react'
 import Convertation from '@/assets/images/convertation.svg?react'
 import Info from '@/assets/images/info.svg?react'
+import { queryClient, trpc } from '@/lib/trpc'
+import { getLastPriceApi } from '@/shared/api/get-last-price'
 import { useStorage } from '@/shared/hooks'
 import {
   Button,
@@ -17,18 +20,28 @@ import { Checkbox } from './checkbox'
 import { LeverageDrawer } from './leverage-drawer'
 
 export const ControlBlock = () => {
-  const [procentValue, setValueProcent] = useState([0])
-  const { value: leverageValue } = useStorage('leverage', [10])
-  const { value: balance, set } = useStorage<number>('balance', 0)
+  const utils = trpc.useUtils()
 
-  const currencyCost = balance! * (procentValue[0] / 100)
+  const [procentValue, setValueProcent] = useState([0])
+  const { value: leverageValue } = useStorage<[number]>('leverage', [10])
+  const { value: balanceValue, set } = useStorage<number>('balance', 0)
+  const { value: coupleValue } = useStorage<string>('couple', 'BTCUSDT')
+
+  const { data } = useQuery({
+    queryKey: ['lastPrice'],
+    queryFn: () => getLastPriceApi(coupleValue!),
+  })
+
+  const createOrder = trpc.createOrder.useMutation({
+    onSuccess() {
+      utils.getOrders.invalidate()
+    },
+  })
+
+  const currencyCost = balanceValue! * (procentValue[0] / 100)
 
   const handleChangeProcent = (value: number[]) => {
     setValueProcent(value)
-  }
-
-  const handleCreateOrder = () => {
-    set(balance! - currencyCost)
   }
 
   const marks: MarksType[] = [
@@ -39,11 +52,24 @@ export const ControlBlock = () => {
     { value: 100 },
   ]
 
-  const maxLong = balance! * leverageValue![0] * 0.969
+  const maxLong = balanceValue! * leverageValue![0] * 0.969
   const sumLong = maxLong * (procentValue[0] / 100)
 
-  const maxShort = balance! * leverageValue![0] * 0.997
+  const maxShort = balanceValue! * leverageValue![0] * 0.997
   const sumShort = maxShort * (procentValue[0] / 100)
+
+  const handleCreateOrder = (status: 'long' | 'short') => async () => {
+    set(balanceValue! - currencyCost)
+    queryClient.invalidateQueries({ queryKey: ['lastPrice'] })
+    createOrder.mutateAsync({
+      status,
+      couple: coupleValue!,
+      leverage: leverageValue![0],
+      marginValue: currencyCost,
+      price: data.Data[coupleValue!].PRICE,
+      isOpen: true,
+    })
+  }
 
   return (
     <section>
@@ -63,7 +89,7 @@ export const ControlBlock = () => {
           <div className="flex items-center gap-1.5">
             <p>
               <CurrencyText
-                value={balance}
+                value={balanceValue}
                 decimalScale={2}
                 fixedDecimalScale={false}
               />{' '}
@@ -146,7 +172,7 @@ export const ControlBlock = () => {
           </div>
           <Button
             className="w-full bg-success text-foreground flex-col gap-0 leading-4"
-            onClick={handleCreateOrder}
+            onClick={handleCreateOrder('long')}
           >
             Купить/Лонг
             {sumLong > 0 && (
@@ -183,7 +209,7 @@ export const ControlBlock = () => {
           </div>
           <Button
             className="w-full bg-fail text-foreground flex-col gap-0 leading-4"
-            onChange={handleCreateOrder}
+            onClick={handleCreateOrder('short')}
           >
             Продать/Шорт
             {sumShort > 0 && (

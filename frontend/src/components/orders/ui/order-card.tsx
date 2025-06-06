@@ -4,30 +4,40 @@ import type { CSSProperties } from 'react'
 import Plus from '@/assets/images/plus.svg?react'
 import Share from '@/assets/images/share.svg?react'
 import { modeToStyle } from '@/shared/constants'
-import { useDataWebSocket } from '@/shared/hooks/useDataWebSocket'
+import { useTickerWs } from '@/shared/hooks'
 import { Badge, Button, CurrencyText, Levels } from '@/shared/ui'
 
 import { CloseDrawer } from './close-drawer'
 import { OrderItem } from './order-item'
 
-export const OrderCard = ({ couple, status, price, shoulder }: IOrder) => {
-  const { marking } = useDataWebSocket(couple)
+export const OrderCard = ({
+  couple,
+  status,
+  price,
+  leverage,
+  marginValue,
+}: IOrder) => {
+  const { ticker } = useTickerWs(couple)
 
-  const marginValue = 12
   /** Цена маркировки */
-  const markingPrice = marking
+  const markingPrice = ticker.markPrice
   /** Размер (USDT) */
-  const values = marginValue * shoulder
+  const values = marginValue * leverage
   /** Размер в крипте */
   const cryptoValue = values / price
   const longPnl = (markingPrice - price) * cryptoValue
   const shortPnl = (price - markingPrice) * cryptoValue
   const pnl = status === 'long' ? longPnl : shortPnl
   const roe = (pnl / marginValue) * 100
+  const liquidationLong = price * (1 - 1 / leverage)
+  const liquidationShort = price * (1 + 1 / leverage)
+  const liquidation = status === 'long' ? liquidationLong : liquidationShort
 
   const bgColor: CSSProperties = {
     backgroundColor: `var(--${modeToStyle[status]})`,
   }
+
+  if (markingPrice === 0) return null
 
   return (
     <div className="py-3.5 pb-4 border-b-1 flex flex-col gap-2.5">
@@ -38,7 +48,7 @@ export const OrderCard = ({ couple, status, price, shoulder }: IOrder) => {
           </span>
           <h2 className="text-base font-medium">{couple}</h2>
           <Badge value="Бесср" />
-          <Badge value={`Изолированная ${shoulder}X`} />
+          <Badge value={`Изолированная ${leverage}X`} />
           <Levels closeCount={2} />
         </div>
         <Button className="size-4" variant="ghost" size="icon">
@@ -81,7 +91,7 @@ export const OrderCard = ({ couple, status, price, shoulder }: IOrder) => {
             />
           </OrderItem>
           <OrderItem title="Маржа (USDT)" underline={false} Icon={Plus}>
-            <CurrencyText value={5.3} decimalScale={2} />
+            <CurrencyText value={marginValue} decimalScale={2} />
           </OrderItem>
           <OrderItem title="Коэффициент маржи" mode="accent" align="end">
             <CurrencyText value={43.91} decimalScale={2} suffix=" %" />
@@ -106,9 +116,9 @@ export const OrderCard = ({ couple, status, price, shoulder }: IOrder) => {
             underline={false}
           >
             <CurrencyText
-              value={3.2612474}
-              decimalScale={7}
-              fixedDecimalScale={false}
+              value={liquidation}
+              decimalScale={2}
+              fixedDecimalScale={true}
             />
           </OrderItem>
         </div>

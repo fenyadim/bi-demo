@@ -67,7 +67,7 @@ export const OrderList = () => {
               Закрыть все
             </Button>
           </div>
-          {_.filter(orders, { openOrder: true }).map((item, index) => (
+          {_.filter(orders, { isOpen: true }).map((item, index) => (
             <OrderCard key={index} {...item} />
           ))}
         </div>

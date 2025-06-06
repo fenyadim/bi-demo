@@ -20,8 +20,8 @@ export const useWebSocketConnection = <T>({
     WS_URL,
     {
       onOpen: () => console.log('WebSocket connection opened ' + topic),
-      onClose: () => console.log('WebSocket connection closed' + topic),
-      onError: (event) => console.error('WebSocket error:', event),
+      onClose: () => console.log('WebSocket connection closed ' + topic),
+      onError: (event) => console.error('WebSocket error: ', event),
       shouldReconnect: () => true,
     },
   )
