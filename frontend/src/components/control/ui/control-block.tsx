@@ -18,12 +18,17 @@ import { LeverageDrawer } from './leverage-drawer'
 
 export const ControlBlock = () => {
   const [procentValue, setValueProcent] = useState([0])
-  const { value: balance } = useStorage<number>('balance', 0)
+  const { value: leverageValue } = useStorage('leverage', [10])
+  const { value: balance, set } = useStorage<number>('balance', 0)
 
   const currencyCost = balance! * (procentValue[0] / 100)
 
   const handleChangeProcent = (value: number[]) => {
     setValueProcent(value)
+  }
+
+  const handleCreateOrder = () => {
+    set(balance! - currencyCost)
   }
 
   const marks: MarksType[] = [
@@ -33,6 +38,12 @@ export const ControlBlock = () => {
     { value: 75 },
     { value: 100 },
   ]
+
+  const maxLong = balance! * leverageValue![0] * 0.969
+  const sumLong = maxLong * (procentValue[0] / 100)
+
+  const maxShort = balance! * leverageValue![0] * 0.997
+  const sumShort = maxShort * (procentValue[0] / 100)
 
   return (
     <section>
@@ -117,7 +128,7 @@ export const ControlBlock = () => {
           <div className="flex justify-between">
             <p className="text-muted">Макс.</p>
             <p>
-              <CurrencyText value={0} decimalScale={1} /> USDT
+              <CurrencyText value={maxLong} decimalScale={1} /> USDT
             </p>
           </div>
           <div className="flex justify-between mb-2">
@@ -133,15 +144,28 @@ export const ControlBlock = () => {
               USDT
             </p>
           </div>
-          <Button className="w-full bg-success text-foreground">
+          <Button
+            className="w-full bg-success text-foreground flex-col gap-0 leading-4"
+            onClick={handleCreateOrder}
+          >
             Купить/Лонг
+            {sumLong > 0 && (
+              <span className="text-[10px] font-light">
+                <CurrencyText
+                  value={sumLong}
+                  decimalScale={2}
+                  prefix="≈ "
+                  suffix=" USDT"
+                />
+              </span>
+            )}
           </Button>
         </div>
         <div>
           <div className="flex justify-between">
             <p className="text-muted">Макс.</p>
             <p>
-              <CurrencyText value={219} decimalScale={1} /> USDT
+              <CurrencyText value={maxShort} decimalScale={1} /> USDT
             </p>
           </div>
           <div className="flex justify-between mb-2">
@@ -157,8 +181,21 @@ export const ControlBlock = () => {
               USDT
             </p>
           </div>
-          <Button className="w-full bg-fail text-foreground">
+          <Button
+            className="w-full bg-fail text-foreground flex-col gap-0 leading-4"
+            onChange={handleCreateOrder}
+          >
             Продать/Шорт
+            {sumShort > 0 && (
+              <span className="text-[10px] font-light">
+                <CurrencyText
+                  value={sumShort}
+                  decimalScale={2}
+                  prefix="≈ "
+                  suffix=" USDT"
+                />
+              </span>
+            )}
           </Button>
         </div>
       </div>
