@@ -1,6 +1,10 @@
+import { useQuery } from '@tanstack/react-query'
 import { type ReactNode, useState } from 'react'
 
 import Arrow from '@/assets/images/arrow-down.svg?react'
+import { queryClient, trpc } from '@/lib/trpc'
+import { getLastPriceApi } from '@/shared/api/get-last-price'
+import { useStorage } from '@/shared/hooks'
 import {
   Badge,
   Button,
@@ -8,6 +12,7 @@ import {
   Drawer,
   DrawerClose,
   DrawerContent,
+  DrawerDescription,
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
@@ -20,13 +25,50 @@ import { TextDrawer } from './text-drawer'
 
 interface ICloseDrawer {
   children: ReactNode
+  id: string
+  price: number
+  markingPrice: number
+  couple: string
+  leverage: number
+  quantity: number
+  status: 'long' | 'short'
+  pnl: number
 }
 
-export const CloseDrawer = ({ children }: ICloseDrawer) => {
+export const CloseDrawer = ({
+  children,
+  id,
+  price,
+  markingPrice,
+  couple,
+  leverage,
+  quantity,
+  pnl,
+  status,
+}: ICloseDrawer) => {
   const [value, setValue] = useState([100])
+  const { value: balanceValue, set } = useStorage<number>('balance')
+
+  const { data } = useQuery({
+    queryKey: ['lastPrice'],
+    queryFn: () => getLastPriceApi(couple),
+  })
+
+  const utils = trpc.useUtils()
+  const { mutateAsync } = trpc.closeOrder.useMutation({
+    onSuccess() {
+      utils.getOrders.invalidate()
+    },
+  })
 
   const handleChange = (value: number[]) => {
     setValue(value)
+  }
+
+  const handleCloseOrder = async () => {
+    set(balanceValue! + pnl)
+    queryClient.invalidateQueries({ queryKey: ['lastPrice'] })
+    mutateAsync({ id, priceClose: data.Data[couple].PRICE, pnlClose: pnl })
   }
 
   const marks: MarksType[] = [
@@ -37,6 +79,9 @@ export const CloseDrawer = ({ children }: ICloseDrawer) => {
     { value: 100 },
   ]
 
+  const percentQuantity = quantity * (value[0] / 100)
+  const statusWord = status === 'long' ? 'Купить' : 'Продать'
+
   return (
     <Drawer>
       <DrawerTrigger asChild>{children}</DrawerTrigger>
@@ -44,27 +89,28 @@ export const CloseDrawer = ({ children }: ICloseDrawer) => {
         <DrawerHeader>
           <DrawerTitle>Закрыть позицию</DrawerTitle>
         </DrawerHeader>
+        <DrawerDescription hidden />
         <div className="px-4 pb-3.5">
           <div className="flex flex-col gap-2.5 pb-7 border-b-1">
             <TextDrawer label="Символ">
               <div className="flex items-center gap-0.5">
-                <p className="text-sm">TONUSDT</p>
+                <p className="text-sm">{couple}</p>
                 <Badge value="Бесср" />
-                <Badge mode="long" value="Купить 45х" />
+                <Badge mode={status} value={`${statusWord} ${leverage}х`} />
               </div>
             </TextDrawer>
             <TextDrawer label="Цена входа (USDT)">
               <CurrencyText
-                value={3.3036}
+                value={price}
                 decimalScale={4}
                 fixedDecimalScale={false}
               />
             </TextDrawer>
             <TextDrawer label="Цена маркировки (USDT)">
               <CurrencyText
-                value={3.3041}
+                value={markingPrice}
                 decimalScale={7}
-                fixedDecimalScale={true}
+                fixedDecimalScale={false}
               />
             </TextDrawer>
           </div>
@@ -90,7 +136,16 @@ export const CloseDrawer = ({ children }: ICloseDrawer) => {
             <div className="mb-1.5">
               <label className="text-sm font-medium text-muted">Сумма</label>
               <div className="flex gap-2 justify-between items-center mt-1.5 bg-secondary p-2.5 rounded-sm *:text-sm *:tracking-normal *:font-normal">
-                <p>{value[0]} % (≈233,5434)</p>
+                <p>
+                  {value[0]} % (
+                  <CurrencyText
+                    value={percentQuantity}
+                    decimalScale={2}
+                    fixedDecimalScale={false}
+                    prefix="≈"
+                  />
+                  )
+                </p>
                 <p>USDT</p>
               </div>
             </div>
@@ -105,18 +160,18 @@ export const CloseDrawer = ({ children }: ICloseDrawer) => {
             <div className="mt-6 flex flex-col gap-2.5">
               <TextDrawer label="Сумма позиции">
                 <CurrencyText
-                  value={233.5454}
-                  decimalScale={4}
+                  value={quantity}
+                  decimalScale={2}
                   fixedDecimalScale={false}
                   suffix=" USDT"
                 />
               </TextDrawer>
-              <TextDrawer label="Расчетный PNL" mode="short" underlineLabel>
+              <TextDrawer label="Расчетный PNL" mode={status} underlineLabel>
                 <CurrencyText
-                  value={0.02}
+                  value={pnl * (value[0] / 100)}
                   decimalScale={2}
                   fixedDecimalScale={false}
-                  prefix="-"
+                  prefix={pnl > 0 ? '+' : ''}
                   suffix=" USDT"
                 />
               </TextDrawer>
@@ -125,7 +180,10 @@ export const CloseDrawer = ({ children }: ICloseDrawer) => {
         </div>
         <DrawerFooter className="pb-12">
           <DrawerClose asChild>
-            <Button className="bg-accent w-full py-5! text-base">
+            <Button
+              className="bg-accent w-full py-5! text-base"
+              onClick={handleCloseOrder}
+            >
               Подтвердить
             </Button>
           </DrawerClose>

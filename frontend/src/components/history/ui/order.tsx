@@ -4,30 +4,31 @@ import Share from '@/assets/images/share.svg?react'
 import { modeToStyle } from '@/shared/constants'
 import type { ModeType } from '@/shared/types'
 import { Badge, Button, CurrencyText } from '@/shared/ui'
+import { formatDate } from '@/shared/utils/formatDate'
 
 import { OrderItem } from './order-item'
 
 export interface IOrder {
-  mode: ModeType
-  token: string
-  pnl: number
-  volumeClose: number
-  priceEntry: number
-  priceAverage: number
-  priceMax: number
+  couple: string
+  status: ModeType
+  priceClose: number | null
+  price: number
+  pnlClose: number | null
+  createdAt: string
+  updatedAt: string
 }
 
 export const Order = ({
-  mode,
-  token,
-  pnl,
-  priceAverage,
-  priceEntry,
-  priceMax,
-  volumeClose,
+  status,
+  couple,
+  pnlClose,
+  priceClose,
+  price,
+  createdAt,
+  updatedAt,
 }: IOrder) => {
   const bgColor: CSSProperties = {
-    backgroundColor: `var(--${modeToStyle[mode]})`,
+    backgroundColor: `var(--${modeToStyle[status]})`,
   }
 
   return (
@@ -35,9 +36,9 @@ export const Order = ({
       <div className="flex justify-between items-center mb-3">
         <div className="flex items-center gap-1 h-min">
           <span className="block rounded-xs text-center size-4" style={bgColor}>
-            {mode === 'long' ? 'К' : 'П'}
+            {status === 'long' ? 'К' : 'П'}
           </span>
-          <h2 className="text-base font-medium">{token}</h2>
+          <h2 className="text-base font-medium">{couple}</h2>
           <Badge className="font-light" value="Бесср" />
           <Badge className="font-light" value="Изолированная" />
         </div>
@@ -52,14 +53,14 @@ export const Order = ({
         <div className="flex justify-between">
           <OrderItem
             title="PnL после закрытия позиций"
-            mode={pnl < 0 ? 'short' : 'long'}
+            mode={pnlClose! < 0 ? 'short' : 'long'}
             size="lg"
           >
-            <CurrencyText value={pnl} decimalScale={2} />
+            <CurrencyText value={pnlClose} decimalScale={2} />
           </OrderItem>
           <OrderItem title="Объем после закрытия позиции" align="end" size="lg">
             <CurrencyText
-              value={volumeClose}
+              value={100}
               decimalScale={10}
               fixedDecimalScale={false}
               suffix=" BTC"
@@ -68,14 +69,14 @@ export const Order = ({
         </div>
         <div className="grid grid-cols-3 gap-1.5 mb-1.5">
           <OrderItem title="Цена входа">
-            <CurrencyText value={priceEntry} decimalScale={1} />
+            <CurrencyText value={price} decimalScale={1} />
           </OrderItem>
           <OrderItem title="Сред.цена закрытия">
-            <CurrencyText value={priceAverage} decimalScale={1} />
+            <CurrencyText value={priceClose} decimalScale={1} />
           </OrderItem>
           <OrderItem title="Макс.сумма открытых позиций" align="end">
             <CurrencyText
-              value={priceMax}
+              value={200}
               decimalScale={10}
               fixedDecimalScale={false}
               suffix=" BTC"
@@ -86,11 +87,11 @@ export const Order = ({
       <div className="flex flex-col gap-1 *:flex *:justify-between **:font-light **:text-muted">
         <div>
           <h3>Открыто</h3>
-          <p>2025-05-27 20:58:30</p>
+          <p>{formatDate(createdAt)}</p>
         </div>
         <div>
           <h3>Закрыто</h3>
-          <p>2025-05-28 13:19:50</p>
+          <p>{formatDate(updatedAt)}</p>
         </div>
       </div>
     </div>

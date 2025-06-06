@@ -8,13 +8,17 @@ datasource db {
 }
 
 model Order {
-  id          String  @id @default(uuid())
+  id          String   @id @default(uuid())
   status      Status
   price       Float
+  priceClose  Float?
+  pnlClose    Float?
   leverage    Int
   marginValue Float
   couple      String
   isOpen      Boolean
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 enum Status {

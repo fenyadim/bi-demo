@@ -69,6 +69,7 @@ export const ControlBlock = () => {
       price: data.Data[coupleValue!].PRICE,
       isOpen: true,
     })
+    setValueProcent([0])
   }
 
   return (

@@ -1,14 +1,19 @@
 import Back from '@/assets/images/back.svg?react'
 import EmptyOrder from '@/assets/images/empty-order.svg?react'
 import Filter from '@/assets/images/filter.svg?react'
+import { trpc } from '@/lib/trpc'
 import { cn } from '@/lib/utils'
 import { Button, SheetClose } from '@/shared/ui'
 
-import { CLOSE_ORDERS, TABS } from '../constants'
+import { TABS } from '../constants'
 import { FilterItem } from './filter-item'
 import { Order } from './order'
 
 export const HistoryPage = () => {
+  const { data: orders } = trpc.getCloseOrders.useQuery()
+
+  if (!orders) return null
+
   return (
     <div className="*:px-4 overflow-y-auto scrollbar-hidden">
       <div className="grid grid-cols-3 items-center pb-5 sticky top-0 bg-background">
@@ -54,9 +59,9 @@ export const HistoryPage = () => {
             </p>
           </div>
         </div>
-        {CLOSE_ORDERS.length > 0 ? (
+        {orders.length > 0 ? (
           <div className="mb-5">
-            {CLOSE_ORDERS.map((item, index) => (
+            {orders.map((item, index) => (
               <Order key={index} {...item} />
             ))}
           </div>

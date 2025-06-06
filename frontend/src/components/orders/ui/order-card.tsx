@@ -1,4 +1,3 @@
-import type { IOrder } from '@bi-demo/backend/src/router/getOrders'
 import type { CSSProperties } from 'react'
 
 import Plus from '@/assets/images/plus.svg?react'
@@ -7,6 +6,7 @@ import { modeToStyle } from '@/shared/constants'
 import { useTickerWs } from '@/shared/hooks'
 import { Badge, Button, CurrencyText, Levels } from '@/shared/ui'
 
+import type { IOrder } from '../types'
 import { CloseDrawer } from './close-drawer'
 import { OrderItem } from './order-item'
 
@@ -16,6 +16,7 @@ export const OrderCard = ({
   price,
   leverage,
   marginValue,
+  id,
 }: IOrder) => {
   const { ticker } = useTickerWs(couple)
 
@@ -86,7 +87,7 @@ export const OrderCard = ({
           <OrderItem title="Размер (USDT)">
             <CurrencyText
               value={values}
-              decimalScale={4}
+              decimalScale={2}
               fixedDecimalScale={false}
             />
           </OrderItem>
@@ -125,7 +126,16 @@ export const OrderCard = ({
         <div className="flex gap-2 *:h-fit *:rounded-sm *:py-2 *:px-0 *:font-normal *:tracking-normal *:bg-[#333b47] *:flex-1 *:text-xs">
           <Button variant="secondary">Кредитное плечо</Button>
           <Button variant="secondary">TP/SL</Button>
-          <CloseDrawer>
+          <CloseDrawer
+            id={id}
+            couple={couple}
+            price={price}
+            markingPrice={markingPrice}
+            leverage={leverage}
+            status={status}
+            quantity={values}
+            pnl={pnl}
+          >
             <Button variant="secondary">Закрыть</Button>
           </CloseDrawer>
         </div>

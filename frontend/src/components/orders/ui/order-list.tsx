@@ -9,6 +9,7 @@ import {
   Checkbox,
   Sheet,
   SheetContent,
+  SheetTitle,
   SheetTrigger,
 } from '@/shared/ui'
 
@@ -22,13 +23,15 @@ export const OrderList = () => {
 
   if (!orders) return null
 
+  const openOrders = _.filter(orders, { isOpen: true })
+
   return (
     <div className="pt-2.5 pb-32 *:p-4">
       <div className="py-0! border-b-1 flex justify-between">
         <div className="flex overflow-x-scroll scrollbar-hidden gap-[13px] *:text-[13px] *:tracking-wider *:text-muted *:font-normal *:pb-[7px] *:whitespace-nowrap">
           <h2>Открытые ордера (0)</h2>
           <h2 className="relative text-foreground! before:absolute before:transform before:-translate-1/2 before:left-1/2 before:bottom-0 before:h-[2px] before:w-[15px] before:bg-accent">
-            Позиции ({orders.length})
+            Позиции ({openOrders.length})
           </h2>
           <h2>Сетка фьючерсов</h2>
         </div>
@@ -43,6 +46,7 @@ export const OrderList = () => {
             </Button>
           </SheetTrigger>
           <SheetContent className="w-full h-full pt-[70px] border-0">
+            <SheetTitle hidden />
             <HistoryPage />
           </SheetContent>
         </Sheet>
@@ -67,7 +71,7 @@ export const OrderList = () => {
               Закрыть все
             </Button>
           </div>
-          {_.filter(orders, { isOpen: true }).map((item, index) => (
+          {openOrders.map((item, index) => (
             <OrderCard key={index} {...item} />
           ))}
         </div>

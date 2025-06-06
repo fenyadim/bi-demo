@@ -21,8 +21,8 @@ export const TABS: { title: string; isActive?: boolean }[] = [
 
 export const CLOSE_ORDERS: IOrder[] = [
   {
-    token: 'TONUSDT',
-    mode: 'long',
+    couple: 'TONUSDT',
+    status: 'long',
     pnl: 2.04,
     volumeClose: 0.001,
     priceEntry: 110255.3,
@@ -30,8 +30,8 @@ export const CLOSE_ORDERS: IOrder[] = [
     priceMax: 0.001,
   },
   {
-    token: 'TONUSDT',
-    mode: 'long',
+    couple: 'TONUSDT',
+    status: 'long',
     pnl: -2.04,
     volumeClose: 0.001,
     priceEntry: 110255.3,
@@ -39,8 +39,8 @@ export const CLOSE_ORDERS: IOrder[] = [
     priceMax: 0.001,
   },
   {
-    token: 'TONUSDT',
-    mode: 'long',
+    couple: 'TONUSDT',
+    status: 'long',
     pnl: -2.04,
     volumeClose: 0.001,
     priceEntry: 110255.3,
@@ -48,8 +48,8 @@ export const CLOSE_ORDERS: IOrder[] = [
     priceMax: 0.001,
   },
   {
-    token: 'TONUSDT',
-    mode: 'short',
+    couple: 'TONUSDT',
+    status: 'short',
     pnl: -2.04,
     volumeClose: 0.001,
     priceEntry: 110255.3,
