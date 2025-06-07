@@ -40,6 +40,10 @@ export const OrderCard = ({
 
   if (markingPrice === 0) return null
 
+  const maintenanceMargin = values * 0.004 // 0.4% для большинства пар
+  const marginRatio =
+    ((maintenanceMargin + Math.max(0, -pnl)) / marginValue) * 100
+
   return (
     <div className="py-3.5 pb-4 border-b-1 flex flex-col gap-2.5">
       <div className="flex justify-between items-center">
@@ -94,8 +98,18 @@ export const OrderCard = ({
           <OrderItem title="Маржа (USDT)" underline={false} Icon={Plus}>
             <CurrencyText value={marginValue} decimalScale={2} />
           </OrderItem>
-          <OrderItem title="Коэффициент маржи" mode="accent" align="end">
-            <CurrencyText value={43.91} decimalScale={2} suffix=" %" />
+          <OrderItem
+            title="Коэффициент маржи"
+            mode={
+              marginRatio >= 40
+                ? 'accent'
+                : marginRatio >= 70
+                  ? 'short'
+                  : 'long'
+            }
+            align="end"
+          >
+            <CurrencyText value={marginRatio} decimalScale={2} suffix=" %" />
           </OrderItem>
           <OrderItem title="Цена входа (USDT)">
             <CurrencyText

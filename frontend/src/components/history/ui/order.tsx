@@ -1,22 +1,14 @@
 import type { CSSProperties } from 'react'
 
 import Share from '@/assets/images/share.svg?react'
+import type { RouterOutputs } from '@/lib/trpc'
 import { modeToStyle } from '@/shared/constants'
-import type { ModeType } from '@/shared/types'
 import { Badge, Button, CurrencyText } from '@/shared/ui'
 import { formatDate } from '@/shared/utils/formatDate'
 
 import { OrderItem } from './order-item'
 
-export interface IOrder {
-  couple: string
-  status: ModeType
-  priceClose: number | null
-  price: number
-  pnlClose: number | null
-  createdAt: string
-  updatedAt: string
-}
+type IOrder = RouterOutputs['getOrders'][0]
 
 export const Order = ({
   status,
@@ -24,12 +16,18 @@ export const Order = ({
   pnlClose,
   priceClose,
   price,
+  marginValue,
+  leverage,
   createdAt,
   updatedAt,
 }: IOrder) => {
   const bgColor: CSSProperties = {
     backgroundColor: `var(--${modeToStyle[status]})`,
   }
+
+  const volume = (marginValue * leverage) / priceClose!
+
+  const token = couple.replace('USDT', '')
 
   return (
     <div className="py-3.5 pb-4 border-b-1 flex flex-col">
@@ -60,10 +58,10 @@ export const Order = ({
           </OrderItem>
           <OrderItem title="Объем после закрытия позиции" align="end" size="lg">
             <CurrencyText
-              value={100}
-              decimalScale={10}
+              value={volume}
+              decimalScale={5}
               fixedDecimalScale={false}
-              suffix=" BTC"
+              suffix={` ${token}`}
             />
           </OrderItem>
         </div>
@@ -76,10 +74,10 @@ export const Order = ({
           </OrderItem>
           <OrderItem title="Макс.сумма открытых позиций" align="end">
             <CurrencyText
-              value={200}
-              decimalScale={10}
+              value={volume}
+              decimalScale={5}
               fixedDecimalScale={false}
-              suffix=" BTC"
+              suffix={` ${token}`}
             />
           </OrderItem>
         </div>
