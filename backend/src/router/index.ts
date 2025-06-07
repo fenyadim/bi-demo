@@ -4,6 +4,7 @@ import { closeOrderTrpcRoute } from './closeOrder'
 import { createOrderTrpcRoute } from './createOrder'
 import { getCloseOrdersTrpcRoute } from './getCloseOrders'
 import { getOrdersTrpcRoute } from './getOrders'
+import { updateOrderTrpcRoute } from './updateOrder'
 // @endindex
 
 export const trpcRouter = trpc.router({
@@ -12,6 +13,7 @@ export const trpcRouter = trpc.router({
 	createOrder: createOrderTrpcRoute,
 	getCloseOrders: getCloseOrdersTrpcRoute,
 	getOrders: getOrdersTrpcRoute,
+	updateOrder: updateOrderTrpcRoute,
 	// @endindex
 })
 

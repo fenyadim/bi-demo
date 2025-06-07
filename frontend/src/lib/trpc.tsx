@@ -1,6 +1,15 @@
 import type { TrpcRouter } from '@bi-demo/backend/src/router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { createTRPCReact, httpBatchLink } from '@trpc/react-query'
+import {
+  createTRPCReact,
+  httpBatchLink,
+  type inferReactQueryProcedureOptions,
+} from '@trpc/react-query'
+import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
+
+export type ReactQueryOptions = inferReactQueryProcedureOptions<TrpcRouter>
+export type RouterInputs = inferRouterInputs<TrpcRouter>
+export type RouterOutputs = inferRouterOutputs<TrpcRouter>
 
 export const trpc = createTRPCReact<TrpcRouter>()
 

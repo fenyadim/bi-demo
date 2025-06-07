@@ -11,3 +11,18 @@ export const formatDate = (date: string): string => {
     })
     .replace(',', '')
 }
+
+export const formatDateAndTime = (dateString: string) => {
+  const date = new Date(dateString)
+  const formattedDate = date.toLocaleDateString('ru-RU', {
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+  })
+  const formattedTime = date.toLocaleTimeString('ru-RU', {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  })
+  return { date: formattedDate, time: formattedTime }
+}
