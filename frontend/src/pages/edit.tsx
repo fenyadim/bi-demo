@@ -47,7 +47,13 @@ export const EditPage = () => {
             id="balane"
             type="number"
             value={balance}
-            onChange={(e) => setBalance(e.target.value)}
+            step="any"
+            onChange={(e) => {
+              const value = e.target.value.replace(',', '.')
+              if (value === '' || /^-?\d*\.?\d*$/.test(value)) {
+                setBalance(value)
+              }
+            }}
           />
         </div>
         <Button variant="secondary" onClick={handleSave}>
