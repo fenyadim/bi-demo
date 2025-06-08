@@ -7,6 +7,8 @@ import {
 } from '@trpc/react-query'
 import type { inferRouterInputs, inferRouterOutputs } from '@trpc/server'
 
+import { env } from './env'
+
 export type ReactQueryOptions = inferReactQueryProcedureOptions<TrpcRouter>
 export type RouterInputs = inferRouterInputs<TrpcRouter>
 export type RouterOutputs = inferRouterOutputs<TrpcRouter>
@@ -25,7 +27,7 @@ export const queryClient = new QueryClient({
 const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
-      url: import.meta.env.VITE_BACKEND_URL,
+      url: env.VITE_BACKEND_URL,
     }),
   ],
 })

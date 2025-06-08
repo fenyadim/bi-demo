@@ -34,4 +34,6 @@ RUN pnpm install --ignore-scripts --prod
 
 RUN pnpm b pgc
 
+ENV VITE_BACKEND_URL=http://a0808s8swwwkkg4s0404w044.79.174.86.132.sslip.io/trpc
+
 CMD ["node", "backend/dist/index"]
