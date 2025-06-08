@@ -1,8 +1,8 @@
 FROM node:20.3.1-alpine AS base
 
-RUN apk add --no-cache libc6-compat
-
 WORKDIR /app
+
+RUN corepack enable pnpm
 
 COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 RUN pnpm install --ignore-scripts
