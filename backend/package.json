@@ -9,6 +9,7 @@
 		"pmd": "prisma migrate dev",
 		"pmp": "prisma migrate deploy",
 		"pgc": "prisma generate",
+		"pdp": "prisma db push",
 		"prepare": "pnpm pgc"
 	},
 	"prisma": {
