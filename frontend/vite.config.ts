@@ -12,7 +12,9 @@ export default defineConfig({
     TanStackRouterVite({ target: 'react', autoCodeSplitting: true }),
     react(),
     tailwindcss(),
-    svgr(),
+    svgr({
+      include: '**/*.svg',
+    }),
   ],
   resolve: {
     alias: {

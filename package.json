@@ -7,7 +7,7 @@
 		"f": "pnpm --filter @bi-demo/frontend",
 		"dcc": "dotenv -e ./.env -e ./backend/.env -e ./frontend/.env -- bash -c 'docker compose config'",
 		"dcb": "dotenv -e ./.env -e ./backend/.env -e ./frontend/.env -- bash -c 'docker compose build'",
-		"dcu": "dotenv -e ./.env -e ./backend/.env -e ./frontend/.env -- bash -c 'docker compose up'"
+		"dcu": "dotenv -e ./.env -e ./backend/.env -- bash -c 'docker compose up'"
 	},
 	"dependencies": {
 		"dotenv-cli": "^7.3.0"
