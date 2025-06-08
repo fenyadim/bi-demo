@@ -7,6 +7,7 @@
 		"build": "rimraf ./dist && tsc --build ./tsconfig.json",
 		"start": "node ./dist/index.js",
 		"pmd": "prisma migrate dev",
+		"pmp": "prisma migrate deploy",
 		"pgc": "prisma generate",
 		"prepare": "pnpm pgc"
 	},
@@ -19,13 +20,13 @@
 		"cors": "^2.8.5",
 		"express": "^5.1.0",
 		"loadsh": "^0.0.4",
+		"prisma": "^6.9.0",
 		"zod": "^3.25.51"
 	},
 	"devDependencies": {
 		"@types/cors": "^2.8.18",
 		"@types/express": "^5.0.2",
 		"prettier": "^3.5.3",
-		"prisma": "^6.9.0",
 		"rimraf": "^6.0.1",
 		"ts-node": "^10.9.2",
 		"ts-node-dev": "^2.0.0",
