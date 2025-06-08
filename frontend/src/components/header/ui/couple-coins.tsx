@@ -1,4 +1,4 @@
-import Arrow from '@/assets/images/arrow-down.svg?react'
+import { ReactComponent as Arrow } from '@/assets/images/arrow-down.svg'
 import { cn } from '@/lib/utils'
 import { useStorage } from '@/shared/hooks'
 import { useTicker } from '@/shared/providers/ticker-provider'

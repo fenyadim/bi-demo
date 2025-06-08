@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query'
 import { type ReactNode, useState } from 'react'
 
-import Arrow from '@/assets/images/arrow-down.svg?react'
+import { ReactComponent as Arrow } from '@/assets/images/arrow-down.svg'
 import { queryClient, trpc } from '@/lib/trpc'
 import { getLastPriceApi } from '@/shared/api/get-last-price'
 import { useStorage } from '@/shared/hooks'

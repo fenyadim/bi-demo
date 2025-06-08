@@ -1,7 +1,7 @@
 import type { CSSProperties } from 'react'
 
-import Plus from '@/assets/images/plus.svg?react'
-import Share from '@/assets/images/share.svg?react'
+import { ReactComponent as Plus } from '@/assets/images/plus.svg'
+import { ReactComponent as Share } from '@/assets/images/share.svg'
 import { modeToStyle } from '@/shared/constants'
 import { useTickerWs } from '@/shared/hooks'
 import { Badge, Button, CurrencyText, Levels } from '@/shared/ui'

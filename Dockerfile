@@ -5,15 +5,15 @@ WORKDIR /app
 RUN corepack enable pnpm
 
 COPY pnpm-lock.yaml pnpm-workspace.yaml ./
-RUN pnpm install --ignore-scripts
 
 FROM base AS build
 
 COPY . .
+RUN pnpm install --ignore-scripts
 
-CMD cd backend && pnpm run prepare 
-CMD cd backend && pnpm run build
-CMD cd frontend && pnpm run build
+RUN pnpm b prepare
+RUN pnpm b build
+RUN pnpm f build
 
 FROM base AS production
 

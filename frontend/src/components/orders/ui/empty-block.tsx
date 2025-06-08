@@ -1,4 +1,4 @@
-import EmptyOrder from '@/assets/images/empty-order.svg?react'
+import { ReactComponent as EmptyOrder } from '@/assets/images/empty-order.svg'
 import { Button } from '@/shared/ui'
 
 export const EmptyBlock = () => {

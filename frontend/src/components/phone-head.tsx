@@ -1,5 +1,5 @@
-import Cellular from '@/assets/images/phone/cellular.svg?react'
-import Wifi from '@/assets/images/phone/wifi.svg?react'
+import { ReactComponent as Cellular } from '@/assets/images/phone/cellular.svg'
+import { ReactComponent as Wifi } from '@/assets/images/phone/wifi.svg'
 import { Battery } from '@/shared/ui/battery'
 
 export const PhoneHead = () => {

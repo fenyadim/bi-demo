@@ -1,6 +1,6 @@
 import _ from 'lodash'
 
-import History from '@/assets/images/history.svg?react'
+import { ReactComponent as History } from '@/assets/images/history.svg'
 import { HistoryPage } from '@/components/history'
 import { trpc } from '@/lib/trpc'
 import { useSheetToggle } from '@/shared/providers/sheet-provider'

@@ -1,6 +1,6 @@
 import type { CSSProperties } from 'react'
 
-import Share from '@/assets/images/share.svg?react'
+import { ReactComponent as Share } from '@/assets/images/share.svg'
 import type { RouterOutputs } from '@/lib/trpc'
 import { modeToStyle } from '@/shared/constants'
 import { Badge, Button, CurrencyText } from '@/shared/ui'

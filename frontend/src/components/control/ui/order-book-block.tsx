@@ -1,7 +1,7 @@
 import { memo, useMemo } from 'react'
 
-import Arrow from '@/assets/images/arrow-down.svg?react'
-import BookOrders from '@/assets/images/book-orders.svg?react'
+import { ReactComponent as Arrow } from '@/assets/images/arrow-down.svg'
+import { ReactComponent as BookOrders } from '@/assets/images/book-orders.svg'
 import { useOrderBookWs, useStorage } from '@/shared/hooks'
 import { useTicker } from '@/shared/providers/ticker-provider'
 import type { IStakes } from '@/shared/types'

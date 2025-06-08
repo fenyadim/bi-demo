@@ -1,4 +1,4 @@
-import Level from '@/assets/images/level.svg?react'
+import { ReactComponent as Level } from '@/assets/images/level.svg'
 import { cn } from '@/lib/utils'
 
 interface ILevels {

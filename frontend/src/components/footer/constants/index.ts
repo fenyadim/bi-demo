@@ -1,8 +1,8 @@
-import Actives from '@/assets/images/actives.svg?react'
-import Futures from '@/assets/images/futures.svg?react'
-import Home from '@/assets/images/home.svg?react'
-import Markets from '@/assets/images/markets.svg?react'
-import Trading from '@/assets/images/trading.svg?react'
+import { ReactComponent as Actives } from '@/assets/images/actives.svg'
+import { ReactComponent as Futures } from '@/assets/images/futures.svg'
+import { ReactComponent as Home } from '@/assets/images/home.svg'
+import { ReactComponent as Markets } from '@/assets/images/markets.svg'
+import { ReactComponent as Trading } from '@/assets/images/trading.svg'
 
 import type { INavButton } from '../ui/nav-button'
 
