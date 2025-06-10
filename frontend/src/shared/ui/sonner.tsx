@@ -11,7 +11,6 @@ const Toaster = ({ ...props }: ToasterProps) => {
         },
       }}
       className="toaster group"
-      duration={1000000000}
       {...props}
     />
   )
