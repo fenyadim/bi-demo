@@ -1,22 +1,24 @@
-FROM node:20.3.1-alpine AS base
+FROM node:20.3.1-alpine AS build
 
 WORKDIR /app
 
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+
 RUN corepack enable pnpm
 
-COPY pnpm-lock.yaml pnpm-workspace.yaml ./
-
-FROM base AS build
-
-RUN pnpm install --ignore-scripts
+RUN pnpm fetch
 
 COPY . .
+
+RUN pnpm install --offline --ignore-scripts
+
+ENV DATABASE_URL="postgres://postgres:sasasa@79.174.86.132:5433/bi-demo"
 
 RUN pnpm b prepare
 RUN pnpm b build
 RUN pnpm f build
 
-FROM base AS production
+FROM build AS production
 
 WORKDIR /app
 
@@ -36,3 +38,4 @@ RUN pnpm install --ignore-scripts --prod
 RUN pnpm b pgc
 
 CMD ["node", "backend/dist/index"]
+~                                    
