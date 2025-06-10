@@ -38,4 +38,3 @@ RUN pnpm install --ignore-scripts --prod
 RUN pnpm b pgc
 
 CMD ["node", "backend/dist/index"]
-~                                    
