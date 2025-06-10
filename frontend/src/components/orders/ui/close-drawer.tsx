@@ -25,6 +25,7 @@ interface ICloseDrawer {
   children: ReactNode
   id: string
   price: number
+  marginValue: number
   markingPrice: number
   closePrice: number
   couple: string
@@ -40,6 +41,7 @@ export const CloseDrawer = ({
   price,
   markingPrice,
   closePrice,
+  marginValue,
   couple,
   leverage,
   quantity,
@@ -61,7 +63,7 @@ export const CloseDrawer = ({
   }
 
   const handleCloseOrder = async () => {
-    set(balanceValue! + pnl)
+    set(balanceValue! + marginValue + pnl)
     queryClient.invalidateQueries({ queryKey: ['lastPrice'] })
     mutateAsync({ id, priceClose: closePrice, pnlClose: pnl })
   }

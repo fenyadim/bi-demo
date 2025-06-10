@@ -144,6 +144,7 @@ export const OrderCard = ({
             id={id}
             couple={couple}
             price={price}
+            marginValue={marginValue}
             markingPrice={markingPrice}
             closePrice={ticker.lastPrice}
             leverage={leverage}
