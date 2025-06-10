@@ -5,6 +5,7 @@ import { PhoneHead } from '@/components/phone-head'
 import { TrpcProvider } from '@/lib/trpc'
 import { SheetProvider } from '@/shared/providers/sheet-provider'
 import { ThemeProvider } from '@/shared/providers/theme-provider'
+import { Toaster } from '@/shared/ui'
 
 export const Route = createRootRoute({
   component: () => (
@@ -17,6 +18,7 @@ export const Route = createRootRoute({
           <SheetProvider>
             <main className="relative pt-[70px]">
               <Outlet />
+              <Toaster />
             </main>
           </SheetProvider>
           <div className="fixed bottom-0 left-0 right-0 z-70 flex items-center justify-center py-[9px]">

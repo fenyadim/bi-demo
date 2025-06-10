@@ -1,8 +1,10 @@
 import _ from 'lodash'
-import { type Dispatch, useState } from 'react'
+import { Save, Trash } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { toast } from 'sonner'
 
 import { type RouterOutputs, trpc } from '@/lib/trpc'
-import { Checkbox, Input } from '@/shared/ui'
+import { Button, Checkbox, Input } from '@/shared/ui'
 
 import { SELECT_COUPLE_ITEMS, SELECT_STATUS_ITEMS } from '../constants'
 import { DatePicker } from './date-picker'
@@ -19,17 +21,34 @@ type InputKeys = Extract<
   'price' | 'leverage' | 'marginValue' | 'pnlClose' | 'priceClose'
 >
 
-interface IEditOrder extends Order {
-  isSave: boolean
-  setIsSave: Dispatch<React.SetStateAction<boolean>>
-  isLastElem: boolean
-}
+type IEditOrder = {} & Order
 
 export const EditOrder = (props: IEditOrder) => {
-  const { isSave, isLastElem, setIsSave, ...items } = props
+  const utils = trpc.useUtils()
+  const { ...items } = props
   const [data, setData] = useState(items)
+  const [isDisable, setIsDisable] = useState(true)
+
   const { couple, status, createdAt, updatedAt, isOpen } = data
-  const { mutateAsync } = trpc.updateOrder.useMutation()
+
+  useEffect(() => {
+    if (!_.isEqual(data, items)) {
+      setIsDisable(false)
+    } else setIsDisable(true)
+  }, [data, items])
+
+  const handleSuccess = (toastTitle: string) => () => {
+    toast.success(toastTitle)
+    utils.getOrders.invalidate()
+  }
+
+  const { mutateAsync: deleteOrder } = trpc.deleteOrder.useMutation({
+    onSuccess: handleSuccess('Order успешно удален'),
+  })
+
+  const { mutateAsync: updateOrder } = trpc.updateOrder.useMutation({
+    onSuccess: handleSuccess('Order успешно обновлен'),
+  })
 
   const handleChange = <T extends FieldType>(field: T, value: ValueType<T>) => {
     setData((prevState) => ({
@@ -38,12 +57,12 @@ export const EditOrder = (props: IEditOrder) => {
     }))
   }
 
-  if (isSave) {
-    mutateAsync(data)
+  const handleSave = async () => {
+    updateOrder(data)
   }
 
-  if (isLastElem) {
-    setIsSave(false)
+  const handleDelete = async () => {
+    deleteOrder({ id: items.id })
   }
 
   const inputValues = _.pick(data, [
@@ -55,11 +74,11 @@ export const EditOrder = (props: IEditOrder) => {
   ])
 
   return (
-    <div>
+    <div className="border-t-1 pt-3">
       <SelectItem
         className="w-full bg-secondary"
         value={status}
-        onChange={(v) => handleChange('couple', v)}
+        onChange={(v) => handleChange('status', v as Order['status'])}
         items={SELECT_STATUS_ITEMS}
       />
       <SelectItem
@@ -98,6 +117,19 @@ export const EditOrder = (props: IEditOrder) => {
         checked={isOpen}
         onCheckedChange={(checked) => handleChange('isOpen', !!checked)}
       />
+      <div className="flex gap-2">
+        <Button
+          className="bg-accent"
+          size="icon"
+          onClick={handleSave}
+          disabled={isDisable}
+        >
+          <Save />
+        </Button>
+        <Button variant="destructive" size="icon" onClick={handleDelete}>
+          <Trash />
+        </Button>
+      </div>
     </div>
   )
 }

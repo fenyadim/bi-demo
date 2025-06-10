@@ -5,5 +5,8 @@ export const getCloseOrdersTrpcRoute = trpc.procedure.query(async ({ ctx }) => {
 		where: {
 			isOpen: false,
 		},
+		orderBy: {
+			createdAt: 'desc',
+		},
 	})
 })

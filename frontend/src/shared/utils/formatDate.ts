@@ -12,13 +12,26 @@ export const formatDate = (date: string): string => {
     .replace(',', '')
 }
 
-export const formatDateAndTime = (dateString: string) => {
+type Orientation = 'normal' | 'reverse'
+
+export const formatDateAndTime = (
+  dateString: string,
+  orientation: Orientation = 'normal',
+) => {
+  const orientationToLocale: Record<Orientation, string> = {
+    normal: 'ru-RU',
+    reverse: 'en-CA',
+  }
+
   const date = new Date(dateString)
-  const formattedDate = date.toLocaleDateString('ru-RU', {
-    year: 'numeric',
-    month: '2-digit',
-    day: '2-digit',
-  })
+  const formattedDate = date.toLocaleDateString(
+    orientationToLocale[orientation],
+    {
+      year: 'numeric',
+      month: '2-digit',
+      day: '2-digit',
+    },
+  )
   const formattedTime = date.toLocaleTimeString('ru-RU', {
     hour: '2-digit',
     minute: '2-digit',

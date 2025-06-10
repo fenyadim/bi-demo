@@ -6,7 +6,7 @@ import type { TrpcRouter } from './router'
 
 export const trpc = initTRPC.context<AppContext>().create()
 
-export const applyTrpcToExpressApp = (
+export const applyTrpcToExpressApp = async (
 	expressApp: Express,
 	appContext: AppContext,
 	trpcRouter: TrpcRouter

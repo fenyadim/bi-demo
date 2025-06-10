@@ -6,7 +6,6 @@ services:
     container_name: bi-demo-container
     env_file:
       - ./backend/.env
-      - ./frontend/.env
       - ./.env
     ports:
       - '${PORT}:${PORT}'

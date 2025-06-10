@@ -4,6 +4,7 @@ import { ReactComponent as Filter } from '@/assets/images/filter.svg'
 import { trpc } from '@/lib/trpc'
 import { cn } from '@/lib/utils'
 import { Button, SheetClose } from '@/shared/ui'
+import { formatDateAndTime } from '@/shared/utils/formatDate'
 
 import { TABS } from '../constants'
 import { FilterItem } from './filter-item'
@@ -11,6 +12,8 @@ import { Order } from './order'
 
 export const HistoryPage = () => {
   const { data: orders } = trpc.getCloseOrders.useQuery()
+  const dateNow = new Date()
+  const { date, time } = formatDateAndTime(dateNow.toISOString(), 'reverse')
 
   if (!orders) return null
 
@@ -51,7 +54,7 @@ export const HistoryPage = () => {
           </div>
           <div className="flex flex-col gap-2.5 pt-2.5 pb-0.5">
             <p className="text-muted">
-              Последнее обновление: 2025-05-29 13:40:59
+              Последнее обновление: {date} {time}
             </p>
             <p className="text-muted leading-4">
               * Из-за сложности данных возможны задержки. Прокрутите вниз, чтобы

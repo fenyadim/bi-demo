@@ -1,4 +1,3 @@
-import { useQuery } from '@tanstack/react-query'
 import { Minus, Plus } from 'lucide-react'
 import { useState } from 'react'
 
@@ -6,8 +5,8 @@ import { ReactComponent as Arrow } from '@/assets/images/arrow-down.svg'
 import { ReactComponent as Convertation } from '@/assets/images/convertation.svg'
 import { ReactComponent as Info } from '@/assets/images/info.svg'
 import { queryClient, trpc } from '@/lib/trpc'
-import { getLastPriceApi } from '@/shared/api/get-last-price'
 import { useStorage } from '@/shared/hooks'
+import { useTicker } from '@/shared/providers/ticker-provider'
 import {
   Button,
   CurrencyText,
@@ -26,11 +25,7 @@ export const ControlBlock = () => {
   const { value: leverageValue } = useStorage<[number]>('leverage', [10])
   const { value: balanceValue, set } = useStorage<number>('balance', 0)
   const { value: coupleValue } = useStorage<string>('couple', 'BTCUSDT')
-
-  const { data } = useQuery({
-    queryKey: ['lastPrice'],
-    queryFn: () => getLastPriceApi(coupleValue!),
-  })
+  const { ticker } = useTicker()
 
   const createOrder = trpc.createOrder.useMutation({
     onSuccess() {
@@ -66,7 +61,7 @@ export const ControlBlock = () => {
       couple: coupleValue!,
       leverage: leverageValue![0],
       marginValue: currencyCost,
-      price: data.Data[coupleValue!].PRICE,
+      price: ticker.lastPrice,
       isOpen: true,
     })
     setValueProcent([0])

@@ -1,9 +1,7 @@
-import { useQuery } from '@tanstack/react-query'
 import { type ReactNode, useState } from 'react'
 
 import { ReactComponent as Arrow } from '@/assets/images/arrow-down.svg'
 import { queryClient, trpc } from '@/lib/trpc'
-import { getLastPriceApi } from '@/shared/api/get-last-price'
 import { useStorage } from '@/shared/hooks'
 import {
   Badge,
@@ -28,6 +26,7 @@ interface ICloseDrawer {
   id: string
   price: number
   markingPrice: number
+  closePrice: number
   couple: string
   leverage: number
   quantity: number
@@ -40,6 +39,7 @@ export const CloseDrawer = ({
   id,
   price,
   markingPrice,
+  closePrice,
   couple,
   leverage,
   quantity,
@@ -48,11 +48,6 @@ export const CloseDrawer = ({
 }: ICloseDrawer) => {
   const [value, setValue] = useState([100])
   const { value: balanceValue, set } = useStorage<number>('balance')
-
-  const { data } = useQuery({
-    queryKey: ['lastPrice'],
-    queryFn: () => getLastPriceApi(couple),
-  })
 
   const utils = trpc.useUtils()
   const { mutateAsync } = trpc.closeOrder.useMutation({
@@ -68,7 +63,7 @@ export const CloseDrawer = ({
   const handleCloseOrder = async () => {
     set(balanceValue! + pnl)
     queryClient.invalidateQueries({ queryKey: ['lastPrice'] })
-    mutateAsync({ id, priceClose: data.Data[couple].PRICE, pnlClose: pnl })
+    mutateAsync({ id, priceClose: closePrice, pnlClose: pnl })
   }
 
   const marks: MarksType[] = [
@@ -166,7 +161,11 @@ export const CloseDrawer = ({
                   suffix=" USDT"
                 />
               </TextDrawer>
-              <TextDrawer label="Расчетный PNL" mode={status} underlineLabel>
+              <TextDrawer
+                label="Расчетный PNL"
+                mode={pnl > 0 ? 'long' : 'short'}
+                underlineLabel
+              >
                 <CurrencyText
                   value={pnl * (value[0] / 100)}
                   decimalScale={2}
