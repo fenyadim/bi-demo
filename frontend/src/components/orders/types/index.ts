@@ -12,4 +12,6 @@ export interface IOrder {
   couple: string
   /** Открытый ордер */
   isOpen: boolean
+  /** Коэффициент маржи */
+  marginRatio: number | null
 }

@@ -16,6 +16,7 @@ export const OrderCard = ({
   price,
   leverage,
   marginValue,
+  marginRatio,
   id,
 }: IOrder) => {
   const { ticker } = useTickerWs(couple)
@@ -41,8 +42,10 @@ export const OrderCard = ({
   if (markingPrice === 0) return null
 
   const maintenanceMargin = values * 0.004 // 0.4% для большинства пар
-  const marginRatio =
+  const calcMarginRatio =
     ((maintenanceMargin + Math.max(0, -pnl)) / marginValue) * 100
+
+  const ratio = marginRatio !== null ? marginRatio : calcMarginRatio
 
   return (
     <div className="py-3.5 pb-4 border-b-1 flex flex-col gap-2.5">
@@ -100,16 +103,10 @@ export const OrderCard = ({
           </OrderItem>
           <OrderItem
             title="Коэффициент маржи"
-            mode={
-              marginRatio >= 40
-                ? 'accent'
-                : marginRatio >= 70
-                  ? 'short'
-                  : 'long'
-            }
+            mode={ratio >= 40 ? 'accent' : ratio >= 70 ? 'short' : 'long'}
             align="end"
           >
-            <CurrencyText value={marginRatio} decimalScale={2} suffix=" %" />
+            <CurrencyText value={ratio} decimalScale={2} suffix=" %" />
           </OrderItem>
           <OrderItem title="Цена входа (USDT)">
             <CurrencyText

@@ -1,4 +1,22 @@
-export const SELECT_COUPLE_ITEMS = ['BTCUSDT', 'ETCUSDT', 'LTCUSDT']
+export const SELECT_COUPLE_ITEMS = [
+  'BTCUSDT',
+  'ETHUSDT',
+  'SOLUSDT',
+  'XRPUSDT',
+  'BNBUSDT',
+  'SUIUSDT',
+  'DOGEUSDT',
+  '1000PEPEUSDT',
+  'ADAUSDT',
+  'TRUMPUSDT',
+  'BCHUSDT',
+  'AAVEUSDT',
+  'TRXUSDT',
+  'LTCUSDT',
+  'UNIUSDT',
+  'LINKUSDT',
+  'AVAXUSDT',
+]
 export const SELECT_STATUS_ITEMS = ['long', 'short']
 export const TABLE_ORDER_LABELS = [
   'Статус',
@@ -8,6 +26,7 @@ export const TABLE_ORDER_LABELS = [
   'Маржа',
   'Pnl при закрытии',
   'Цена маркировки при закрытии',
+  'Коэффицинт маржи',
   'Дата создания',
   'Дата закрытия',
   'Открытый ордер',

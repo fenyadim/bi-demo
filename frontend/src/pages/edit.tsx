@@ -35,6 +35,7 @@ export const EditPage = () => {
   const [balance, setBalance] = useState(`${balanceValue}`)
 
   const { data: orders } = trpc.getOrders.useQuery()
+
   const { mutateAsync } = trpc.deleteAllOrders.useMutation({
     onSuccess: () => {
       utils.getOrders.invalidate()
@@ -83,7 +84,7 @@ export const EditPage = () => {
       </div>
       <div className="flex flex-col gap-2">
         <h2 className="font-medium text-lg">Ордера</h2>
-        <Card className="p-3 bg-background grid gap-3 *:grid *:grid-cols-11 *:gap-3 *:items-center *:justify-items-center">
+        <Card className="p-3 bg-background grid gap-3 *:grid *:grid-cols-12 *:gap-3 *:items-center *:justify-items-center">
           <div>
             {TABLE_ORDER_LABELS.map((label) => (
               <p className="font-medium text-sm text-center" key={label}>

@@ -18,7 +18,12 @@ type ValueType<T extends FieldType> = Order[T]
 
 type InputKeys = Extract<
   FieldType,
-  'price' | 'leverage' | 'marginValue' | 'pnlClose' | 'priceClose'
+  | 'price'
+  | 'leverage'
+  | 'marginValue'
+  | 'pnlClose'
+  | 'priceClose'
+  | 'marginRatio'
 >
 
 type IEditOrder = {} & Order
@@ -71,6 +76,7 @@ export const EditOrder = (props: IEditOrder) => {
     'marginValue',
     'pnlClose',
     'priceClose',
+    'marginRatio',
   ])
 
   return (

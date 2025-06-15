@@ -11,6 +11,7 @@ export const updateOrderTrpcRoute = trpc.procedure
 			price: z.number(),
 			leverage: z.number(),
 			marginValue: z.number(),
+			marginRatio: z.number().nullable(),
 			couple: z.string(),
 			isOpen: z.boolean(),
 			createdAt: z.string(),

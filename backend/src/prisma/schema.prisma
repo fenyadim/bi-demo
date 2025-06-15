@@ -15,6 +15,7 @@ model Order {
   pnlClose    Float?
   leverage    Int
   marginValue Float
+  marginRatio Float?
   couple      String
   isOpen      Boolean
   createdAt   DateTime @default(now())
