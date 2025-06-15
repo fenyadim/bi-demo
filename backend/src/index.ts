@@ -1,6 +1,7 @@
 import cors from 'cors'
 import express from 'express'
 import { AppContext, createAppContext } from './lib/ctx'
+import { applyServeWebApp } from './lib/serveFrontend'
 import { trpcRouter } from './router'
 import { applyTrpcToExpressApp } from './trpc'
 
@@ -18,7 +19,7 @@ void (async () => {
 
 		await applyTrpcToExpressApp(expressApp, ctx, trpcRouter)
 
-		// await applyServeWebApp(expressApp)
+		await applyServeWebApp(expressApp)
 
 		expressApp.listen(3000, () => {
 			console.info('Listening at port 3000')
