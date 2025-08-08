@@ -25,7 +25,7 @@ export const queryClient = new QueryClient({
 const trpcClient = trpc.createClient({
   links: [
     httpBatchLink({
-      url: 'http://a0808s8swwwkkg4s0404w044.79.174.86.132.sslip.io/trpc',
+      url: 'http://app-bi-pbzdtw-3609a6-45-9-40-200.traefik.me/trpc',
     }),
   ],
 })
