@@ -4,15 +4,13 @@ RUN npm install -g pnpm
 
 WORKDIR /app
 
-COPY pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
 
 RUN corepack enable pnpm
 
-RUN pnpm fetch
-
 COPY . .
 
-RUN pnpm install --offline --ignore-scripts
+RUN pnpm ci --ignore-scripts
 
 ENV DATABASE_URL="postgresql://root:sasasa@45.9.40.200:5432/bi-db"
 
