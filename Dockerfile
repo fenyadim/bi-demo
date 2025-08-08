@@ -14,7 +14,7 @@ COPY . .
 
 RUN pnpm install --offline --ignore-scripts
 
-ENV DATABASE_URL="postgresql://root:sasasa@45.9.40.200:5432/bi-db"
+ENV DATABASE_URL="postgresql://root:sasasa@45.9.40.200:5433/bi-db"
 
 RUN pnpm b prepare
 RUN pnpm b build
