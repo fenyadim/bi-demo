@@ -1,7 +1,5 @@
 FROM node:20.3.1-alpine AS build
 
-RUN apk add --no-cache openssl libc6-compat python3 make g++ git
-
 RUN corepack enable && corepack prepare pnpm@9.1.0 --activate
 
 WORKDIR /app
