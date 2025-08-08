@@ -1,8 +1,10 @@
 FROM node:20.3.1-alpine AS build
 
+RUN npm install -g pnpm
+
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY pnpm-lock.yaml pnpm-workspace.yaml ./
 
 RUN corepack enable pnpm
 
@@ -12,7 +14,7 @@ COPY . .
 
 RUN pnpm install --offline --ignore-scripts
 
-ENV DATABASE_URL="postgres://postgres:sasasa@79.174.86.132:5433/bi-demo"
+ENV DATABASE_URL="postgresql://root:sasasa@45.9.40.200:5432/bi-db"
 
 RUN pnpm b prepare
 RUN pnpm b build
