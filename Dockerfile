@@ -10,7 +10,7 @@ RUN corepack enable pnpm
 
 COPY . .
 
-RUN pnpm ci --ignore-scripts
+RUN pnpm ci
 
 ENV DATABASE_URL="postgresql://root:sasasa@45.9.40.200:5432/bi-db"
 
